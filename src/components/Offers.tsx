@@ -190,7 +190,7 @@ export default function OffersSection() {
   ];
 
   return (
-    <section id="offres" className="pb-24 pt-0">
+    <section id="offres" className="pb-2 md:pb-12 pt-0">
       <motion.div 
         initial={{ rotateX: 10, y: 100, opacity: 0 }}
         whileInView={{ rotateX: 0, y: 0, opacity: 1 }}
@@ -265,7 +265,7 @@ export default function OffersSection() {
           </div>
         </div>
         
-        <div id="hadj" className="mb-24 text-center">
+        <div id="hadj" className="mb-12 md:mb-24 text-center">
           <h2 className="text-3xl font-bold text-brand-emerald mb-8 uppercase tracking-widest">Nos Offres</h2>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
             {hadjOffers.map((off, idx) => (

@@ -1,4 +1,4 @@
-import { motion, useScroll, useSpring, AnimatePresence } from 'motion/react';
+import { motion, useScroll, useSpring, AnimatePresence, MotionConfig, useReducedMotion } from 'motion/react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import OffersSection from './components/Offers';
@@ -13,17 +13,45 @@ import Faq from './components/Faq';
 import Newsletter from './components/Newsletter';
 import { Star, MapPin, Clock, BadgeCheck, Camera, Heart, ShieldCheck, Phone, X, Mail } from 'lucide-react';
 import { cn } from './lib/utils';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 
 export default function App() {
   const { scrollYProgress } = useScroll();
   const [selectedGalleryImg, setSelectedGalleryImg] = useState<string | null>(null);
+  const [isCoarsePointer, setIsCoarsePointer] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
+
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(pointer: coarse), (max-width: 900px)');
+    const updateDeviceClass = () => setIsCoarsePointer(mediaQuery.matches);
+    updateDeviceClass();
+
+    mediaQuery.addEventListener('change', updateDeviceClass);
+    return () => mediaQuery.removeEventListener('change', updateDeviceClass);
+  }, []);
+
+  const lowPerfMode = isCoarsePointer || prefersReducedMotion;
 
   const scaleX = useSpring(scrollYProgress, {
     stiffness: 100,
     damping: 30,
     restDelta: 0.001
   });
+
+  const backgroundBlobs = useMemo(
+    () =>
+      [...Array(6)].map((_, i) => ({
+        id: i,
+        width: 400 + Math.random() * 300,
+        height: 400 + Math.random() * 300,
+        top: `${Math.random() * 100}%`,
+        left: `${Math.random() * 100}%`,
+        duration: 15 + Math.random() * 10,
+        xOffset: Math.random() * 200 - 100,
+        yOffset: Math.random() * 200 - 100,
+      })),
+    [],
+  );
 
   const galleryImages = [
     "/624700658_876937178464558_4558521500937380253_n.jpg",
@@ -37,36 +65,39 @@ export default function App() {
   ];
 
   return (
-    <div className="relative font-sans selection:bg-brand-gold selection:text-brand-emerald bg-white overflow-x-hidden">
+    <MotionConfig reducedMotion={lowPerfMode ? 'always' : 'never'}>
+      <div className="relative font-sans selection:bg-brand-gold selection:text-brand-emerald bg-white overflow-x-hidden">
       {/* 3D Background Decorative Elements */}
-      <div className="fixed inset-0 pointer-events-none z-0">
-        {[...Array(6)].map((_, i) => (
+      {!lowPerfMode && (
+        <div className="fixed inset-0 pointer-events-none z-0 hidden md:block">
+        {backgroundBlobs.map((blob) => (
           <motion.div
-            key={i}
+            key={blob.id}
             className={cn(
               "absolute rounded-full blur-[120px]",
-              i % 2 === 0 ? "bg-brand-gold/10" : "bg-brand-emerald/5"
+              blob.id % 2 === 0 ? "bg-brand-gold/10" : "bg-brand-emerald/5"
             )}
             animate={{
-              x: [0, Math.random() * 200 - 100, 0],
-              y: [0, Math.random() * 200 - 100, 0],
+              x: [0, blob.xOffset, 0],
+              y: [0, blob.yOffset, 0],
               scale: [1, 1.3, 1],
               opacity: [0.3, 0.6, 0.3]
             }}
             transition={{
-              duration: 15 + Math.random() * 10,
+              duration: blob.duration,
               repeat: Infinity,
               ease: "easeInOut"
             }}
             style={{
-              width: 400 + Math.random() * 300,
-              height: 400 + Math.random() * 300,
-              top: Math.random() * 100 + '%',
-              left: Math.random() * 100 + '%',
+              width: blob.width,
+              height: blob.height,
+              top: blob.top,
+              left: blob.left,
             }}
           />
         ))}
-      </div>
+        </div>
+      )}
 
       {/* Progress Bar */}
       <motion.div
@@ -214,6 +245,9 @@ export default function App() {
                   <img 
                     src={img} 
                     alt={`AL-HIDAYA Gallery ${i}`} 
+                    loading={i < 2 ? 'eager' : 'lazy'}
+                    decoding="async"
+                    fetchPriority={i === 0 ? 'high' : 'low'}
                     className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                   />
                   <div className="absolute inset-0 bg-brand-emerald/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
@@ -303,11 +337,12 @@ export default function App() {
               >
                 <X size={24} />
               </button>
-              <img src={selectedGalleryImg} className="w-full h-full object-contain" alt="Gallery View" />
+              <img src={selectedGalleryImg} className="w-full h-full object-contain" alt="Gallery View" decoding="async" />
             </motion.div>
           </div>
         )}
       </AnimatePresence>
-    </div>
+      </div>
+    </MotionConfig>
   );
 }

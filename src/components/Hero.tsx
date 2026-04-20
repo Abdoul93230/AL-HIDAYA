@@ -1,9 +1,11 @@
-import React, { useState, useEffect } from 'react';
-import { motion, useMotionValue, useSpring, useTransform } from 'motion/react';
+import React, { useState, useEffect, useMemo } from 'react';
+import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from 'motion/react';
 import { ChevronDown, ArrowRight, ShieldCheck, Timer } from 'lucide-react';
 
 export default function Hero() {
   const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, mins: 0, secs: 0 });
+  const [isCoarsePointer, setIsCoarsePointer] = useState(false);
+  const prefersReducedMotion = useReducedMotion();
 
   useEffect(() => {
     const target = new Date("2026-06-01T00:00:00").getTime();
@@ -20,6 +22,17 @@ export default function Hero() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const mediaQuery = window.matchMedia('(pointer: coarse), (max-width: 900px)');
+    const updateDeviceClass = () => setIsCoarsePointer(mediaQuery.matches);
+    updateDeviceClass();
+
+    mediaQuery.addEventListener('change', updateDeviceClass);
+    return () => mediaQuery.removeEventListener('change', updateDeviceClass);
+  }, []);
+
+  const lowPerfMode = isCoarsePointer || prefersReducedMotion;
+
   const xMouse = useMotionValue(0);
   const yMouse = useMotionValue(0);
 
@@ -28,6 +41,18 @@ export default function Hero() {
 
   const rotateX = useTransform(mouseYSpring, [-100, 100], ["10deg", "-10deg"]);
   const rotateY = useTransform(mouseXSpring, [-100, 100], ["-10deg", "10deg"]);
+
+  const floatingOrbs = useMemo(
+    () =>
+      [...Array(5)].map((_, i) => ({
+        id: i,
+        width: Math.random() * 300 + 200,
+        height: Math.random() * 300 + 200,
+        top: `${Math.random() * 80}%`,
+        left: `${Math.random() * 80}%`,
+      })),
+    [],
+  );
 
   const handleMouseMove = (e: React.MouseEvent) => {
     const { clientX, clientY } = e;
@@ -40,16 +65,16 @@ export default function Hero() {
 
   return (
     <section 
-      onMouseMove={handleMouseMove}
+      onMouseMove={lowPerfMode ? undefined : handleMouseMove}
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-brand-emerald py-20 lg:py-0"
       style={{ perspective: "1200px" }}
     >
       {/* 3D Background Video with Parallax Effect */}
       <motion.div 
-        style={{ rotateX, rotateY }}
-        initial={{ scale: 1.1 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 10, repeat: Infinity, repeatType: "reverse" }}
+        style={lowPerfMode ? undefined : { rotateX, rotateY }}
+        initial={lowPerfMode ? undefined : { scale: 1.1 }}
+        animate={lowPerfMode ? undefined : { scale: 1 }}
+        transition={lowPerfMode ? undefined : { duration: 10, repeat: Infinity, repeatType: "reverse" }}
         className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
       >
         {/* YouTube Video for Desktop */}
@@ -65,9 +90,11 @@ export default function Hero() {
         {/* High-quality Fallback Image for Mobile (YouTube is buggy on mobile background) */}
         <div className="lg:hidden w-full h-full">
           <img 
-            src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&q=80&w=2000" 
+            src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&q=70&w=1200" 
             className="w-full h-full object-cover"
             alt="Mecca background"
+            decoding="async"
+            fetchPriority="high"
           />
         </div>
         
@@ -75,16 +102,17 @@ export default function Hero() {
       </motion.div>
 
       {/* Floating 3D Elements (Visual Depth) */}
-      <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden">
-        {[...Array(5)].map((_, i) => (
+      {!lowPerfMode && (
+        <div className="absolute inset-0 z-10 pointer-events-none overflow-hidden hidden md:block">
+        {floatingOrbs.map((orb) => (
           <motion.div
-            key={i}
+            key={orb.id}
             className="absolute bg-brand-gold/10 rounded-full blur-[80px]"
             style={{
-              width: Math.random() * 300 + 200,
-              height: Math.random() * 300 + 200,
-              top: Math.random() * 80 + '%',
-              left: Math.random() * 80 + '%'
+              width: orb.width,
+              height: orb.height,
+              top: orb.top,
+              left: orb.left,
             }}
             animate={{
               y: [0, 100, 0],
@@ -93,16 +121,17 @@ export default function Hero() {
               scale: [1, 1.2, 1]
             }}
             transition={{
-              duration: 15 + i * 5,
+              duration: 15 + orb.id * 5,
               repeat: Infinity,
               ease: "easeInOut"
             }}
           />
         ))}
-      </div>
+        </div>
+      )}
       
       <motion.div 
-        style={{ rotateX, rotateY, transformStyle: "preserve-3d" }}
+        style={lowPerfMode ? undefined : { rotateX, rotateY, transformStyle: "preserve-3d" }}
         className="relative z-20 max-w-6xl mx-auto px-6 text-center"
       >
         <motion.div
@@ -191,8 +220,8 @@ export default function Hero() {
       
       {/* 3D Scroll Indicator */}
       <motion.div 
-        animate={{ y: [0, 10, 0] }}
-        transition={{ repeat: Infinity, duration: 2 }}
+        animate={lowPerfMode ? undefined : { y: [0, 10, 0] }}
+        transition={lowPerfMode ? undefined : { repeat: Infinity, duration: 2 }}
         className="absolute bottom-10 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2"
       >
         <span className="text-white/50 text-[10px] uppercase tracking-[0.3em] font-bold">Découvrir</span>
