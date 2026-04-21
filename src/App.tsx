@@ -11,6 +11,7 @@ import WhyUs from './components/WhyUs';
 import Process from './components/Process';
 import Faq from './components/Faq';
 import Newsletter from './components/Newsletter';
+import Blog from './components/Blog';
 import { Star, MapPin, Clock, BadgeCheck, Camera, Heart, ShieldCheck, Phone, X, Mail } from 'lucide-react';
 import { cn } from './lib/utils';
 import { useEffect, useMemo, useState } from 'react';
@@ -18,6 +19,7 @@ import { useEffect, useMemo, useState } from 'react';
 export default function App() {
   const { scrollYProgress } = useScroll();
   const [selectedGalleryImg, setSelectedGalleryImg] = useState<string | null>(null);
+  const [currentPage, setCurrentPage] = useState<'home' | 'blog'>('home');
   const [isCoarsePointer, setIsCoarsePointer] = useState(false);
   const prefersReducedMotion = useReducedMotion();
 
@@ -69,7 +71,7 @@ export default function App() {
       <div className="relative font-sans selection:bg-brand-gold selection:text-brand-emerald bg-white overflow-x-hidden">
       {/* 3D Background Decorative Elements */}
       {!lowPerfMode && (
-        <div className="fixed inset-0 pointer-events-none z-0 hidden md:block">
+        <div className="fixed inset-0 pointer-events-none z-0 hidden lg:block">
         {backgroundBlobs.map((blob) => (
           <motion.div
             key={blob.id}
@@ -99,16 +101,30 @@ export default function App() {
         </div>
       )}
 
+      {/* Static Background for Mobile (Performance) */}
+      <div className="fixed inset-0 pointer-events-none z-0 lg:hidden overflow-hidden">
+        <div className="absolute top-1/4 -left-20 w-80 h-80 bg-brand-gold/5 rounded-full blur-[80px]" />
+        <div className="absolute bottom-1/4 -right-20 w-80 h-80 bg-brand-emerald/5 rounded-full blur-[80px]" />
+      </div>
+
       {/* Progress Bar */}
       <motion.div
         className="fixed top-0 left-0 right-0 h-1 bg-brand-gold origin-left z-[60]"
         style={{ scaleX }}
       />
 
-      <Navbar />
+      <Navbar onNavigate={setCurrentPage} />
       <WhatsAppButton />
 
-      <main>
+      <AnimatePresence mode="wait">
+        {currentPage === 'home' ? (
+          <motion.main
+            key="home"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.5 }}
+          >
         {/* HERO SECTION */}
         <Hero />
 
@@ -130,7 +146,7 @@ export default function App() {
         {/* NEWSLETTER */}
         <Newsletter />
 
-        <section id="apropos" className="py-24 relative overflow-hidden bg-white">
+        <section id="apropos" className="py-16 md:py-20 relative overflow-hidden bg-white">
           <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
             <motion.div
               initial={{ opacity: 0, x: -100, rotate: -5 }}
@@ -212,9 +228,9 @@ export default function App() {
         {/* OFFERS SECTION - Replaced above */}
 
         {/* GALLERY SECTION */}
-        <section id="galerie" className="py-24 bg-brand-sand">
+        <section id="galerie" className="py-16 md:py-20 bg-brand-sand">
           <div className="max-w-7xl mx-auto px-6">
-            <div className="text-center mb-16">
+            <div className="text-center mb-10 md:mb-12">
               <h2 className="text-3xl md:text-5xl font-bold text-brand-emerald mb-4 uppercase tracking-widest">Galerie</h2>
               <p className="text-gray-500 max-w-lg mx-auto">Revivez les moments forts de nos pèlerinages.</p>
             </div>
@@ -265,7 +281,7 @@ export default function App() {
         <RequiredDocuments />
 
         {/* CONTACT SECTION */}
-        <section id="contact" className="py-24 relative bg-white">
+        <section id="contact" className="py-16 md:py-20 relative bg-white">
           <div className="max-w-7xl mx-auto px-6">
              <div className="bg-brand-sand rounded-[40px] shadow-sleek overflow-hidden grid grid-cols-1 lg:grid-cols-2 border border-white">
                 <div className="p-12 lg:p-20 bg-brand-emerald text-white relative">
@@ -277,18 +293,19 @@ export default function App() {
                   </p>
 
                   <div className="space-y-8">
-                     <div className="flex items-center gap-6">
-                        <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-brand-gold border border-white/20"><Phone size={20} /></div>
+                    <div className="flex items-start gap-6">
+                      <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-brand-gold border border-white/20 grow-0 shrink-0"><Phone size={20} /></div>
                         <div>
-                          <p className="text-[10px] uppercase tracking-widest font-bold text-white/50">Téléphone</p>
-                          <p className="text-lg font-bold">+227 89 50 24 85</p>
+                        <p className="text-[10px] uppercase tracking-widest font-bold text-white/50">Réservations</p>
+                        <p className="text-lg font-bold">+227 98 42 41 40</p>
+                        <p className="text-sm font-medium text-white/60 mt-1">Autres : 88 62 73 79 | 97 56 40 77</p>
                         </div>
                      </div>
                      <div className="flex items-center gap-6">
                         <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-brand-gold border border-white/20"><MapPin size={20} /></div>
                         <div>
                           <p className="text-[10px] uppercase tracking-widest font-bold text-white/50">Bureau</p>
-                          <p className="text-lg font-bold">Niamey, Niger</p>
+                        <p className="text-lg font-bold">Route Djogol Midi, Niamey</p>
                         </div>
                      </div>
                   </div>
@@ -302,7 +319,7 @@ export default function App() {
         </section>
 
         {/* SEO / FOOTER LINKS CTA */}
-        <section className="py-12 bg-white text-center">
+        <section className="py-8 md:py-10 bg-white text-center">
             <div className="max-w-4xl mx-auto px-6">
                 <p className="text-gray-400 text-sm leading-relaxed">
                   AL-HIDAYA est agréée par le Ministère de l'Intérieur, de la Sécurité Publique et de l'Administration Territoriale du Niger. <br/>
@@ -310,7 +327,18 @@ export default function App() {
                 </p>
             </div>
         </section>
-      </main>
+          </motion.main>
+        ) : (
+          <motion.div
+            key="blog"
+            initial={{ opacity: 0, x: 20 }}
+            animate={{ opacity: 1, x: 0 }}
+            exit={{ opacity: 0, x: -20 }}
+          >
+            <Blog onBack={() => setCurrentPage('home')} />
+          </motion.div>
+        )}
+      </AnimatePresence>
 
       <Footer />
 

@@ -31,20 +31,20 @@ export default function Process() {
   ];
 
   return (
-    <section className="py-24 bg-brand-emerald text-white overflow-hidden relative">
+    <section className="py-16 md:py-20 bg-brand-emerald text-white overflow-hidden relative">
       {/* Decorative Graphics */}
       <div className="absolute top-0 right-0 w-96 h-96 bg-brand-gold/10 blur-[150px] rounded-full -mr-48 -mt-48" />
       <div className="absolute bottom-0 left-0 w-96 h-96 bg-brand-gold/5 blur-[150px] rounded-full -ml-48 -mb-48" />
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="text-center mb-20">
+        <div className="text-center mb-12 md:mb-14">
           <h4 className="text-brand-gold font-bold uppercase tracking-[0.4em] text-[10px] mb-4">La Méthode AL-HIDAYA</h4>
           <h2 className="text-4xl md:text-7xl font-serif font-light tracking-tighter">
             Votre voyage <span className="italic">étape par étape</span>
           </h2>
         </div>
 
-        <div className="flex overflow-x-auto md:grid md:grid-cols-4 gap-8 md:gap-12 pt-10 pb-12 md:pb-0 snap-x snap-mandatory hide-scrollbar relative -mx-6 px-6">
+        <div className="flex overflow-x-auto md:grid md:grid-cols-4 gap-8 md:gap-10 pt-6 pb-8 md:pb-0 snap-x snap-mandatory hide-scrollbar relative -mx-6 px-6">
           {/* Connector Line (Desktop) */}
           <div className="hidden md:block absolute top-16 left-0 w-full h-0.5 bg-brand-gold/20 -z-10" />
 
@@ -75,7 +75,7 @@ export default function Process() {
         </div>
 
         {/* Mobile Swipe Indicator */}
-        <div className="flex md:hidden justify-center gap-2 mt-[-20px] mb-10">
+        <div className="flex md:hidden justify-center gap-2 mt-[-16px] mb-6">
           {steps.map((_, i) => (
             <div key={i} className="w-1.5 h-1.5 rounded-full bg-white/20" />
           ))}
@@ -85,11 +85,11 @@ export default function Process() {
           initial={{ opacity: 0, y: 30 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="mt-20 text-center"
+          className="mt-12 md:mt-14 text-center"
         >
           <a
             href="#contact"
-            className="inline-flex px-12 py-5 bg-brand-gold text-brand-emerald font-black rounded-full shadow-2xl hover:scale-105 transition-all text-sm uppercase tracking-widest"
+            className="inline-flex px-10 py-4 bg-brand-gold text-brand-emerald font-black rounded-full shadow-2xl hover:scale-105 transition-all text-sm uppercase tracking-widest"
           >
             Commencer mon inscription
           </a>

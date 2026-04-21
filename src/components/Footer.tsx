@@ -1,4 +1,3 @@
-import { motion } from 'motion/react';
 import { Facebook, Instagram, Twitter, Mail, MapPin, Phone } from 'lucide-react';
 
 export default function Footer() {
@@ -54,17 +53,22 @@ export default function Footer() {
         <div>
           <h4 className="font-bold text-lg mb-6 text-brand-gold">Contactez-nous</h4>
           <ul className="space-y-4 text-white/70">
-            <li className="flex items-center gap-3">
-              <MapPin size={18} className="text-brand-gold shrink-0" />
-              <span>Quartier Zabarkan, Niamey, Niger</span>
+            <li className="flex items-start gap-3">
+              <MapPin size={18} className="text-brand-gold shrink-0 mt-1" />
+              <span>Route Djogol Midi, Niamey, Niger</span>
             </li>
-            <li className="flex items-center gap-3">
-              <Phone size={18} className="text-brand-gold shrink-0" />
-              <span>+227 89 50 24 85</span>
+            <li className="flex items-start gap-3">
+              <Phone size={18} className="text-brand-gold shrink-0 mt-1" />
+              <div className="flex flex-col gap-1">
+                <span>+227 98 42 41 40</span>
+                <span>+227 88 62 73 79</span>
+                <span>+227 97 56 40 77</span>
+                <span>+227 96 34 79 76</span>
+              </div>
             </li>
             <li className="flex items-center gap-3">
               <Mail size={18} className="text-brand-gold shrink-0" />
-              <span>contact@alhidaya.bf</span>
+              <span>contact@alhidaya.ne</span>
             </li>
           </ul>
         </div>

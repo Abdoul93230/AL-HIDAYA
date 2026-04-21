@@ -11,7 +11,7 @@ export default function Newsletter() {
   };
 
   return (
-    <section className="py-24 bg-brand-emerald relative overflow-hidden">
+    <section className="py-16 md:py-20 bg-brand-emerald relative overflow-hidden">
       {/* Decorative Ornaments */}
       <div className="absolute top-0 left-0 w-full h-full opacity-5 pointer-events-none">
          <div className="absolute top-10 left-10 w-64 h-64 border-2 border-white rounded-full" />
@@ -19,21 +19,21 @@ export default function Newsletter() {
       </div>
 
       <div className="max-w-7xl mx-auto px-6 relative z-10">
-        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[40px] md:rounded-[60px] p-8 md:p-20 text-center">
+        <div className="bg-white/5 backdrop-blur-xl border border-white/10 rounded-[32px] md:rounded-[48px] p-6 md:p-14 text-center">
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
             className="max-w-2xl mx-auto"
           >
-            <div className="w-16 h-16 bg-brand-gold rounded-2xl flex items-center justify-center text-brand-emerald mx-auto mb-8 shadow-lg">
+            <div className="w-14 h-14 bg-brand-gold rounded-2xl flex items-center justify-center text-brand-emerald mx-auto mb-5 shadow-lg">
               <Mail size={32} />
             </div>
             
-            <h2 className="text-3xl md:text-5xl font-serif font-light text-white mb-6 tracking-tighter">
+            <h2 className="text-3xl md:text-4xl font-serif font-light text-white mb-4 tracking-tighter">
               Restez <span className="italic">Informé</span>
             </h2>
-            <p className="text-white/60 text-lg mb-10 font-medium">
+            <p className="text-white/60 text-base md:text-lg mb-7 md:mb-8 font-medium">
               Abonnez-vous pour recevoir les dernières mises à jour sur les dates de départ, les ouvertures de visas et nos offres exclusives pour le <span className="text-brand-gold">Hadj 2026</span>.
             </p>
 
@@ -52,7 +52,7 @@ export default function Newsletter() {
                   required
                   type="email"
                   placeholder="Votre adresse email"
-                  className="w-full h-16 md:h-20 bg-white rounded-full px-8 md:px-10 text-brand-emerald font-bold focus:outline-none focus:ring-4 focus:ring-brand-gold/30 transition-all placeholder:text-gray-400"
+                  className="w-full h-14 md:h-16 bg-white rounded-full px-7 md:px-9 text-brand-emerald font-bold focus:outline-none focus:ring-4 focus:ring-brand-gold/30 transition-all placeholder:text-gray-400"
                 />
                 <button
                   type="submit"
@@ -64,7 +64,7 @@ export default function Newsletter() {
               </form>
             )}
             
-            <p className="mt-8 text-[10px] text-white/30 uppercase tracking-[0.2em] font-bold">
+            <p className="mt-5 text-[10px] text-white/30 uppercase tracking-[0.2em] font-bold">
               Zéro Spam. Désabonnez-vous à tout moment.
             </p>
           </motion.div>

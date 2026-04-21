@@ -3,7 +3,13 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, Phone } from 'lucide-react';
 import { cn } from '../lib/utils';
 
-export default function Navbar() {
+type NavPage = 'home' | 'blog';
+
+interface NavbarProps {
+  onNavigate?: (page: NavPage) => void;
+}
+
+export default function Navbar({ onNavigate }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -16,14 +22,31 @@ export default function Navbar() {
   }, []);
 
   const navLinks = [
-    { name: 'Accueil', href: '#' },
-    { name: 'Offres Hadj', href: '#hadj' },
-    { name: 'Offres Oumra', href: '#oumra' },
-    { name: 'À Propos', href: '#apropos' },
-    { name: 'Documents', href: '#documents' },
-    { name: 'Galerie', href: '#galerie' },
-    { name: 'Contact', href: '#contact' },
+    { name: 'Accueil', href: '#', type: 'page', key: 'home' as NavPage },
+    { name: 'Offres Hadj', href: '#hadj', type: 'anchor' },
+    { name: 'Offres Oumra', href: '#oumra', type: 'anchor' },
+    { name: 'Blog', href: '#blog', type: 'page', key: 'blog' as NavPage },
+    { name: 'À Propos', href: '#apropos', type: 'anchor' },
+    { name: 'Documents', href: '#documents', type: 'anchor' },
+    { name: 'Galerie', href: '#galerie', type: 'anchor' },
+    { name: 'Contact', href: '#contact', type: 'anchor' },
   ];
+
+  const handlePageNavigate = (page: NavPage) => {
+    if (onNavigate) {
+      onNavigate(page);
+    }
+
+    if (page === 'home') {
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+      return;
+    }
+
+    const blogSection = document.querySelector('#blog');
+    if (blogSection) {
+      blogSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }
+  };
 
   return (
     <nav
@@ -36,7 +59,8 @@ export default function Navbar() {
         <motion.div 
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
-          className="flex items-center gap-2"
+          className="flex items-center gap-2 cursor-pointer"
+          onClick={() => handlePageNavigate('home')}
         >
           <span className="text-xl md:text-2xl font-extrabold tracking-widest text-white">
             AL-HIDAYA
@@ -44,7 +68,7 @@ export default function Navbar() {
         </motion.div>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-10">
+        <div className="hidden md:flex items-center gap-8 lg:gap-10">
           {navLinks.map((link, i) => (
             <motion.a
               key={link.name}
@@ -52,6 +76,12 @@ export default function Navbar() {
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
+              onClick={(e) => {
+                if (link.type === 'page' && link.key) {
+                  e.preventDefault();
+                  handlePageNavigate(link.key);
+                }
+              }}
               className={cn(
                 "text-[13px] font-bold uppercase tracking-wider transition-opacity hover:opacity-100",
                 isScrolled ? "text-white opacity-80" : "text-white/80 opacity-80"
@@ -101,7 +131,14 @@ export default function Navbar() {
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.05 }}
-                  onClick={() => setMobileMenuOpen(false)}
+                  onClick={(e) => {
+                    setMobileMenuOpen(false);
+
+                    if (link.type === 'page' && link.key) {
+                      e.preventDefault();
+                      handlePageNavigate(link.key);
+                    }
+                  }}
                   className="text-xl font-bold text-white/80 hover:text-brand-gold transition-colors"
                 >
                   {link.name}

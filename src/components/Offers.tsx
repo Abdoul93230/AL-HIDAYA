@@ -57,7 +57,7 @@ export function OfferCard({ title, type, price, features, image, isPopular, full
       }}
       className={cn(
         "relative rounded-[25px] md:rounded-[30px] overflow-hidden transition-all duration-300 group h-full flex flex-col border cursor-pointer",
-        isPopular ? "bg-white shadow-sleek scale-[1.02] md:scale-[1.05] border-brand-gold z-10" : "bg-white/90 backdrop-blur-md shadow-sleek border-white/20"
+        isPopular ? "bg-white shadow-sleek scale-[1.02] md:scale-[1.05] border-brand-gold z-10" : "bg-white md:bg-white/90 md:backdrop-blur-md shadow-sleek border-white/20"
       )}
     >
       {isPopular && (
@@ -118,79 +118,92 @@ export function OfferCard({ title, type, price, features, image, isPopular, full
 
 export default function OffersSection() {
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
+  const [activeSeason, setActiveSeason] = useState<'2025-2026' | '2026-2027'>('2025-2026');
 
-  const hadjOffers: Offer[] = [
+  const offers2526: Offer[] = [
     {
-      title: "Hadj Prestige 2026",
-      type: "Hadj",
-      price: "3 500 000",
-      image: "https://images.unsplash.com/photo-1758985776354-4df674930917?q=80&w=1074&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      isPopular: true,
+      title: "Oumra Decembre 2025",
+      type: "Oumra",
+      price: "1 100 000",
+      image: "https://images.unsplash.com/photo-1565552134634-2f7555732dad?q=80&w=1200&auto=format",
       features: [
-        "Vols directs réguliers",
-        "Hôtel 5★ face au Haram (100m)",
-        "Transferts en bus VIP climatisé",
-        "Encadrement religieux H24",
-        "Visites sacrées (Ziyarats)",
-        "Assurance médicale Or",
-        "Kit pèlerin complet SmartLimb"
+        "Du 23 dec. 2025 au 04 jan. 2026",
+        "Visa et assurance inclus",
+        "Hotel a proximite du Haram",
+        "Encadrement personnalise",
+        "Kit pelerin offert"
       ],
-      fullDetails: "Une expérience spirituelle sans compromis. Nous gérons chaque détail logistique pour que vous vous concentriez uniquement sur vos rites. Notre équipe dévouée vous accompagne de Niamey jusqu'à votre retour."
+      fullDetails: "Celebrez la fin d'annee dans la serenite des lieux saints. Un sejour de 12 jours concu pour allier confort et spiritualite."
     },
     {
-      title: "Hadj Standard Plus",
-      type: "Hadj",
-      price: "2 900 000",
+      title: "Oumra Ramadan (1er Gr.)",
+      type: "Oumra",
+      price: "1 900 000",
       image: "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=1200&auto=format",
+      isPopular: true,
       features: [
-        "Vols avec escale confortable",
-        "Hôtel 4★ à proximité (500m)",
-        "Transport bus climatisé moderne",
-        "Guide religieux expérimenté",
-        "Pension complète incluse",
-        "Assistance visa et formalités",
-        "Sac de voyage Al-Hidaya offert"
+        "Du 16 fev. 2026 au 23 mars 2026",
+        "Mois complet de Ramadan",
+        "Hotels 4 etoiles et 5 etoiles",
+        "Derniere decade incluse",
+        "Pension complete (Ifthar/Suhoor)"
       ],
-      fullDetails: "Le meilleur rapport qualité-prix pour votre pèlerinage. Profitez d'un confort optimal et d'un encadrement de qualité supérieure à un prix étudié."
+      fullDetails: "Le voyage d'une vie. Vivez le mois de Ramadan en entier a La Mecque et Medine avec un encadrement H24."
     }
   ];
 
-  const oumraOffers: Offer[] = [
+  const offers2627: Offer[] = [
     {
-      title: "Oumra Ramadan 2026",
+      title: "Oumra Aout 2026",
       type: "Oumra",
-      price: "1 800 000",
-      image: "https://images.unsplash.com/photo-1770786106021-52580470e31e?q=80&w=1331&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-      isPopular: true,
+      price: "1 100 000",
+      image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1200&auto=format",
       features: [
-        "Derniers 10 jours sacrés",
-        "Hôtel 5★ à Médine et La Mecque",
-        "Visa et assurance inclus",
-        "Ifthar et Suhoor haut de gamme",
-        "Assistance bagages personnalisée",
-        "I'tikaf assisté pour ceux qui le souhaitent"
+        "Du 05 aout au 20 aout 2026",
+        "Visa inclus",
+        "Hotel premium",
+        "Transport Medine et Mecque",
+        "Kit pelerin offert"
       ],
-      fullDetails: "Vivez la ferveur du Ramadan dans les lieux saints. Un voyage transformateur organisé pour votre confort spirituel maximal durant ces nuits bénies."
+      fullDetails: "Partez durant l'ete 2026. Un voyage de 15 jours tout inclus, ideal pour une experience spirituelle fluide."
     },
     {
-      title: "Oumra Économique",
+      title: "Oumra Decembre 2026",
       type: "Oumra",
       price: "1 200 000",
-      image: "https://images.unsplash.com/photo-1627728734379-a5f8c099763e?q=80&w=735&auto=format&fit=crop&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+      image: "https://images.unsplash.com/photo-1564769625905-50e93615e769?q=80&w=1200&auto=format",
       features: [
-        "Hôtel 3★ de qualité",
-        "Transport inter-villes moderne",
-        "Guide spirituel dévoué",
-        "Kit pèlerin offert",
-        "Assistance visa rapide",
-        "Vols réguliers confortables"
+        "Du 23 dec. 2026 au 02 jan. 2027",
+        "Visa inclus",
+        "Hotel Medine et Mecque",
+        "Transport climatise",
+        "Encadrement devoue"
       ],
-      fullDetails: "Accessible et sérieux. Idéal pour un premier voyage ou pour ceux qui souhaitent partir régulièrement sans sacrifier la qualité de l'encadrement."
+      fullDetails: "Planifiez votre fin d'annee 2026 avec un sejour tout confort pour debuter 2027 sous les meilleurs auspices."
+    },
+    {
+      title: "Hadj 2027 (Pre-inscription)",
+      type: "Hadj",
+      price: "3 146 149",
+      image: "https://images.unsplash.com/photo-1519817650390-64a93db51149?q=80&w=1200&auto=format",
+      isPopular: true,
+      features: [
+        "Dates selon calendrier officiel",
+        "Hotel prestige proche du Haram",
+        "Bus climatises nouvelle generation",
+        "Encadrement medical et religieux",
+        "Kit complet AL-HIDAYA"
+      ],
+      fullDetails: "Anticipez votre pelerinage 2027. Prix provisoire sujet aux directives officielles. Acompte de 150 000 FCFA pour valider votre pre-inscription."
     }
   ];
 
+  const currentOffers = activeSeason === '2025-2026' ? offers2526 : offers2627;
+  const firstHadjIndex = currentOffers.findIndex((offer) => offer.type === 'Hadj');
+  const firstOumraIndex = currentOffers.findIndex((offer) => offer.type === 'Oumra');
+
   return (
-    <section id="offres" className="pb-2 md:pb-12 pt-0">
+    <section id="offres" className="pb-12 md:pb-24 pt-0">
       <motion.div 
         initial={{ rotateX: 10, y: 100, opacity: 0 }}
         whileInView={{ rotateX: 0, y: 0, opacity: 1 }}
@@ -199,89 +212,113 @@ export default function OffersSection() {
         className="max-w-7xl mx-auto px-6 -mt-16 md:-mt-32 relative z-30"
         style={{ perspective: "1000px" }}
       >
-        <div className="text-center mb-12 md:mb-20 relative px-4 py-8 rounded-[40px] bg-white/60 backdrop-blur-xl border border-white/40 shadow-xl">
+        <div className="text-center mb-8 md:mb-12 relative px-4 py-5 md:py-6 rounded-[40px] bg-white/60 backdrop-blur-xl border border-white/40 shadow-xl">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
             viewport={{ once: true }}
-            className="inline-block px-5 py-2 rounded-full bg-brand-emerald text-white text-[10px] font-black uppercase tracking-[0.4em] mb-6 shadow-lg"
+            className="inline-block px-4 py-1.5 rounded-full bg-brand-emerald text-white text-[10px] font-black uppercase tracking-[0.35em] mb-4 shadow-lg"
           >
-            Nos Programmes Exclusifs
+            Nos Programmes 2025 - 2027
           </motion.div>
           <motion.h2 
             initial={{ opacity: 0, y: 30 }}
             whileInView={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             viewport={{ once: true }}
-            className="text-4xl md:text-8xl font-serif font-light text-brand-emerald leading-[0.9] tracking-tighter"
+            className="text-3xl md:text-6xl font-serif font-light text-brand-emerald leading-[0.95] tracking-tighter"
           >
-            Vivez l'Expansion <br/> <span className="text-brand-gold italic">Spirituelle</span>
+            Calendrier des <br/> <span className="text-brand-gold italic">Departs</span>
           </motion.h2>
           <motion.div 
             initial={{ scaleX: 0 }}
             whileInView={{ scaleX: 1 }}
             transition={{ duration: 1, delay: 0.5 }}
             viewport={{ once: true }}
-            className="w-20 md:w-32 h-2 bg-brand-gold mx-auto mt-8 rounded-full shadow-sm"
+            className="w-16 md:w-24 h-1.5 bg-brand-gold mx-auto mt-5 rounded-full shadow-sm"
           />
+
+          <div className="flex flex-col sm:flex-row justify-center gap-2.5 sm:gap-3 mt-6 md:mt-7">
+            <button
+              onClick={() => setActiveSeason('2025-2026')}
+              className={cn(
+                "px-5 md:px-7 py-2.5 rounded-full font-black text-[10px] md:text-xs uppercase tracking-wider transition-all",
+                activeSeason === '2025-2026'
+                  ? "bg-brand-emerald text-white shadow-lg"
+                  : "bg-white text-brand-emerald border-2 border-brand-emerald/10 hover:border-brand-emerald"
+              )}
+            >
+              Saison 2025 - 2026
+            </button>
+            <button
+              onClick={() => setActiveSeason('2026-2027')}
+              className={cn(
+                "px-5 md:px-7 py-2.5 rounded-full font-black text-[10px] md:text-xs uppercase tracking-wider transition-all",
+                activeSeason === '2026-2027'
+                  ? "bg-brand-emerald text-white shadow-lg"
+                  : "bg-white text-brand-emerald border-2 border-brand-emerald/10 hover:border-brand-emerald"
+              )}
+            >
+              Saison 2026 - 2027
+            </button>
+          </div>
         </div>
 
-        <div className="flex overflow-x-auto md:grid md:grid-cols-3 gap-8 mb-12 md:mb-24 pb-8 md:pb-0 snap-x snap-mandatory hide-scrollbar -mx-6 px-6 pt-4">
-          <div className="flex-none w-[300px] md:w-auto snap-center">
-            <OfferCard 
-              title={hadjOffers[0].title}
-              type={hadjOffers[0].type}
-              price={hadjOffers[0].price}
-              features={hadjOffers[0].features}
-              image={hadjOffers[0].image}
-              isPopular={hadjOffers[0].isPopular}
-              fullDetails={hadjOffers[0].fullDetails}
-              onOpenModal={setSelectedOffer} 
-            />
-          </div>
-          <div className="flex-none w-[300px] md:w-auto snap-center">
-            <OfferCard 
-              title={oumraOffers[0].title}
-              type={oumraOffers[0].type}
-              price={oumraOffers[0].price}
-              features={oumraOffers[0].features}
-              image={oumraOffers[0].image}
-              isPopular={oumraOffers[0].isPopular}
-              fullDetails={oumraOffers[0].fullDetails}
-              onOpenModal={setSelectedOffer} 
-            />
-          </div>
-          <div className="flex-none w-[300px] md:w-auto snap-center">
-            <OfferCard 
-              title={oumraOffers[1].title}
-              type={oumraOffers[1].type}
-              price={oumraOffers[1].price}
-              features={oumraOffers[1].features}
-              image={oumraOffers[1].image}
-              isPopular={oumraOffers[1].isPopular}
-              fullDetails={oumraOffers[1].fullDetails}
-              onOpenModal={setSelectedOffer} 
-            />
-          </div>
-        </div>
-        
-        <div id="hadj" className="mb-12 md:mb-24 text-center">
-          <h2 className="text-3xl font-bold text-brand-emerald mb-8 uppercase tracking-widest">Nos Offres</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-10">
-            {hadjOffers.map((off, idx) => (
-              <OfferCard 
-                key={idx}
-                title={off.title}
-                type={off.type}
-                price={off.price}
-                features={off.features}
-                image={off.image}
-                isPopular={off.isPopular}
-                fullDetails={off.fullDetails}
+        <div
+          className={cn(
+            "flex overflow-x-auto md:grid gap-8 mb-12 md:mb-24 pb-8 md:pb-0 snap-x snap-mandatory hide-scrollbar -mx-6 px-6 pt-4 md:mx-auto md:px-0",
+            currentOffers.length <= 1
+              ? "md:grid-cols-1 md:max-w-xl"
+              : currentOffers.length === 2
+                ? "md:grid-cols-2 md:max-w-5xl"
+                : "md:grid-cols-2 lg:grid-cols-4"
+          )}
+        >
+          {currentOffers.map((offer, idx) => (
+            <div
+              key={idx}
+              id={idx === firstHadjIndex ? 'hadj' : idx === firstOumraIndex ? 'oumra' : undefined}
+              className="flex-none w-[300px] md:w-auto snap-center"
+            >
+              <OfferCard
+                {...offer}
                 onOpenModal={setSelectedOffer}
               />
-            ))}
-          </div>
+            </div>
+          ))}
+        </div>
+
+        {activeSeason === '2026-2027' && (
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            className="bg-brand-emerald p-8 md:p-12 rounded-[40px] text-white flex flex-col md:flex-row items-center gap-10 shadow-2xl mb-12"
+          >
+            <div className="w-20 h-20 rounded-2xl bg-brand-gold flex items-center justify-center shrink-0">
+              <Phone size={40} className="text-brand-emerald" />
+            </div>
+            <div className="flex-grow text-center md:text-left">
+              <h3 className="text-2xl font-black mb-2">Tontine Oumrah 2026</h3>
+              <p className="text-white/70 mb-4 font-medium">Preparation progressive pour vos departs d'aout et decembre 2026. Paiement via <span className="text-brand-gold font-bold">AmanaTa</span>.</p>
+              <div className="flex flex-wrap justify-center md:justify-start gap-4">
+                <span className="px-4 py-2 bg-white/10 rounded-full text-xs font-black uppercase tracking-widest border border-white/20">AmanaTa : 89 97 17 64</span>
+              </div>
+            </div>
+            <motion.a
+              href="https://wa.me/22789971764"
+              whileHover={{ scale: 1.05 }}
+              className="px-8 py-4 bg-brand-gold text-brand-emerald font-black rounded-full uppercase tracking-widest text-xs shadow-xl"
+            >
+              Infos Tontine
+            </motion.a>
+          </motion.div>
+        )}
+
+        <div className="bg-brand-sand/50 backdrop-blur-sm border border-brand-gold/10 p-8 rounded-[40px] text-center">
+          <p className="text-brand-emerald font-bold text-sm">
+            <span className="text-brand-gold uppercase tracking-widest mr-2">Conditions :</span>
+            Acompte obligatoire de <span className="text-brand-emerald font-black underline decoration-brand-gold shadow-sm">150 000 FCFA</span> pour valider toute reservation.
+          </p>
         </div>
       </motion.div>
 
