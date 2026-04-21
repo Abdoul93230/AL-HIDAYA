@@ -43,7 +43,7 @@ const posts: BlogPost[] = [
     excerpt: "Pourquoi choisir le paiement progressif ? Notre nouveau partenariat avec AmanaTa facilite l'accès aux lieux saints pour tous.",
     category: "Conseils",
     date: "12 Octobre 2025",
-    image: "https://images.unsplash.com/photo-1582213713416-2bf9e69f889c?q=80&w=1200&auto=format",
+    image: "/tontine.jpg",
     author: "Direction AL-HIDAYA",
     content: (
       <div className="space-y-6">
@@ -65,7 +65,7 @@ const posts: BlogPost[] = [
     excerpt: "Les avantages logistiques et le confort de notre accompagnement spécial pour les départs de la fin d'année.",
     category: "Voyages",
     date: "05 Octobre 2025",
-    image: "https://images.unsplash.com/photo-1565552134634-2f7555732dad?q=80&w=1200&auto=format",
+    image: "/alhidaya.jpg",
     author: "Service Client",
     content: (
       <div className="space-y-6">
