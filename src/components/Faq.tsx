@@ -1,9 +1,15 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronRight, HelpCircle, ShieldCheck, Wallet, Calendar, Users, Plane, MousePointer2 } from 'lucide-react';
+import { ChevronRight, HelpCircle, ShieldCheck, Wallet, Calendar, Users, Plane, MousePointer2, FileText } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 const faqs = [
+  {
+    icon: <FileText className="w-6 h-6" />,
+    q: "Quels documents dois-je fournir ?",
+    a: "Seul le passeport original est requis : valide au moins 6 mois après la date de retour. Les autres pièces (photos, carnet de vaccination, copie d'identité) ne sont généralement pas nécessaires lors de l'inscription en ligne et sont demandées uniquement au cas par cas.",
+    category: "Documents"
+  },
   {
     icon: <Calendar className="w-6 h-6" />,
     q: "Quelles sont les dates exactes pour le Hadj 2026 ?",
@@ -40,7 +46,7 @@ export default function Faq() {
   const [activeIndex, setActiveIndex] = useState(0);
 
   return (
-    <section className="py-24 md:py-32 bg-brand-sand relative overflow-hidden">
+    <section id="FAQ" className="py-24 md:py-32 bg-brand-sand relative overflow-hidden">
       {/* Background Ornament - Hidden on small mobile */}
       <div className="absolute top-0 right-0 opacity-[0.03] pointer-events-none hidden sm:block">
         <HelpCircle size={600} className="-mr-40 -mt-20 rotate-12" />

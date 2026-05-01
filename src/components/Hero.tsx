@@ -1,26 +1,10 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from 'motion/react';
-import { ChevronDown, ArrowRight, ShieldCheck, Timer } from 'lucide-react';
+import { ChevronDown, ArrowRight, ShieldCheck } from 'lucide-react';
 
 export default function Hero() {
-  const [timeLeft, setTimeLeft] = useState({ days: 0, hours: 0, mins: 0, secs: 0 });
   const [isCoarsePointer, setIsCoarsePointer] = useState(false);
   const prefersReducedMotion = useReducedMotion();
-
-  useEffect(() => {
-    const target = new Date("2026-06-01T00:00:00").getTime();
-    const interval = setInterval(() => {
-      const now = new Date().getTime();
-      const difference = target - now;
-      setTimeLeft({
-        days: Math.floor(difference / (1000 * 60 * 60 * 24)),
-        hours: Math.floor((difference % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)),
-        mins: Math.floor((difference % (1000 * 60 * 60)) / (1000 * 60)),
-        secs: Math.floor((difference % (1000 * 60)) / 1000)
-      });
-    }, 1000);
-    return () => clearInterval(interval);
-  }, []);
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(pointer: coarse), (max-width: 900px)');
@@ -69,7 +53,7 @@ export default function Hero() {
       className="relative min-h-screen flex items-center justify-center overflow-hidden bg-brand-emerald py-20 lg:py-0"
       style={{ perspective: "1200px" }}
     >
-      {/* 3D Background Video with Parallax Effect */}
+      {/* Background Image with Parallax Effect */}
       <motion.div 
         style={lowPerfMode ? undefined : { rotateX, rotateY }}
         initial={lowPerfMode ? undefined : { scale: 1.1 }}
@@ -77,20 +61,10 @@ export default function Hero() {
         transition={lowPerfMode ? undefined : { duration: 10, repeat: Infinity, repeatType: "reverse" }}
         className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
       >
-        {/* YouTube Video for Desktop */}
-        <div className="hidden lg:block w-full h-full">
-          <iframe
-            src={`https://www.youtube.com/embed/vVJmX80zP-I?autoplay=1&mute=1&loop=1&playlist=vVJmX80zP-I&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&enablejsapi=1&origin=${typeof window !== 'undefined' ? window.location.origin : ''}`}
-            className="absolute top-1/2 left-1/2 w-[180vh] min-w-full h-[56.25vw] min-h-full -translate-x-1/2 -translate-y-1/2 pointer-events-none border-none"
-            allow="autoplay; encrypted-media"
-            title="Mecca Animation"
-          />
-        </div>
-        
-        {/* High-quality Fallback Image for Mobile (YouTube is buggy on mobile background) */}
-        <div className="lg:hidden w-full h-full">
+        {/* High-quality Background Image for All Screens */}
+        <div className="w-full h-full">
           <img 
-            src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&q=70&w=1200" 
+            src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&q=70&w=1400" 
             className="w-full h-full object-cover"
             alt="Mecca background"
             decoding="async"
@@ -139,62 +113,31 @@ export default function Hero() {
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 1.2, ease: "circOut" }}
+          className="relative"
         >
+          {/* Accreditation Badge - Top Right */}
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             animate={{ opacity: 1, scale: 1 }}
             transition={{ delay: 0.8, duration: 1 }}
-            className="absolute -top-12 -right-12 hidden lg:flex flex-col items-center justify-center w-32 h-32 bg-brand-gold rounded-full shadow-2xl rotate-12 group hover:rotate-0 transition-all duration-500"
+            className="absolute -top-12 -right-12 md:-top-16 md:-right-16 flex flex-col items-center justify-center w-24 h-24 md:w-32 md:h-32 bg-brand-gold rounded-full shadow-2xl rotate-12 group hover:rotate-0 transition-all duration-500 z-20"
           >
-            <ShieldCheck size={32} className="text-brand-emerald mb-1" />
+            <ShieldCheck size={24} className="text-brand-emerald mb-1 md:w-8 md:h-8" />
             <span className="text-[10px] font-black text-brand-emerald text-center leading-none uppercase tracking-tighter">
               Agréé <br/> État du Niger
             </span>
           </motion.div>
 
-          <motion.span
-            initial={{ opacity: 0, scale: 0.8 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ delay: 0.5 }}
-            className="inline-block px-5 py-1.5 rounded-full bg-white/10 backdrop-blur-md border border-white/20 text-brand-gold text-xs font-bold uppercase tracking-[0.4em] mb-4 md:mb-8"
-          >
-            Premium Pilgrimage Experience
-          </motion.span>
-
-          {/* COUNTDOWN UI */}
-          <motion.div 
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1, duration: 1 }}
-            className="flex items-center justify-center gap-4 mb-8 md:mb-12"
-          >
-            {[
-              { label: 'Jours', value: timeLeft.days },
-              { label: 'H', value: timeLeft.hours },
-              { label: 'M', value: timeLeft.mins },
-              { label: 'S', value: timeLeft.secs },
-            ].map((unit, i) => (
-              <div key={i} className="flex flex-col items-center">
-                <div className="text-xl md:text-3xl font-black text-white tabular-nums">
-                  {unit.value.toString().padStart(2, '0')}
-                </div>
-                <div className="text-[8px] md:text-[10px] uppercase tracking-widest font-black text-brand-gold">
-                  {unit.label}
-                </div>
-              </div>
-            ))}
-            <div className="h-8 w-px bg-white/20 mx-2 hidden md:block" />
-            <div className="hidden md:flex items-center gap-2 text-white/60">
-              <Timer size={16} className="animate-pulse" />
-              <span className="text-[10px] uppercase font-bold tracking-widest text-left leading-tight">Avant le <br/> Prochain Départ</span>
-            </div>
-          </motion.div>
-
-          <h1 className="text-4xl sm:text-6xl md:text-9xl font-display font-black text-white leading-[0.8] mb-8 tracking-tighter drop-shadow-2xl">
-            SPIRITUALITÉ <br />
-            <span className="font-serif font-light italic text-transparent bg-clip-text bg-gradient-to-r from-brand-gold via-white to-brand-gold animate-shimmer">D'Exception</span>
-          </h1>
-          <p className="text-base sm:text-lg md:text-2xl text-white font-medium max-w-3xl mx-auto mb-12 leading-relaxed px-4 drop-shadow-md">
+          <div>
+            <h1 className="text-4xl sm:text-6xl md:text-9xl font-display font-black text-white leading-[0.8] mb-4 tracking-tighter drop-shadow-2xl">
+              AL-HIDAYA
+            </h1>
+            <p className="text-sm md:text-base font-serif font-light italic text-brand-gold mb-12 drop-shadow-md max-w-2xl mx-auto">
+              Le meilleur choix pour un meilleur encadrement
+            </p>
+          </div>
+          
+          <p className="text-base sm:text-lg md:text-xl text-white font-medium max-w-3xl mx-auto mb-12 leading-relaxed px-4 drop-shadow-md">
             L'excellence d'un voyage sacré, encadré par des professionnels pour une quiétude absolue de l'âme.
           </p>
           

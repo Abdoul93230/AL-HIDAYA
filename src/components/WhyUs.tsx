@@ -1,9 +1,22 @@
-import React from 'react';
+import React, { useRef } from 'react';
 import { motion } from 'motion/react';
-import { ShieldCheck, Award, Users, Hotel, Heart, Clock } from 'lucide-react';
+import { ShieldCheck, Award, Users, Hotel, Heart, Clock, ChevronLeft, ChevronRight } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 export default function WhyUs() {
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollCarousel = (direction: 'left' | 'right') => {
+    const container = carouselRef.current;
+    if (!container) return;
+
+    const offset = Math.round(container.clientWidth * 0.8);
+    container.scrollBy({
+      left: direction === 'left' ? -offset : offset,
+      behavior: 'smooth',
+    });
+  };
+
   const items = [
     {
       icon: <ShieldCheck size={40} />,
@@ -14,8 +27,8 @@ export default function WhyUs() {
     },
     {
       icon: <Hotel size={32} />,
-      title: "Hébergement 5★",
-      desc: "Des hôtels luxueux à quelques pas du Haram.",
+      title: "Hébergements bien situés",
+      desc: "Des chambres spacieuses, bien aménagées et avec un accès facilité au Haram.",
       size: "small",
       color: "bg-brand-gold text-brand-emerald"
     },
@@ -36,7 +49,7 @@ export default function WhyUs() {
     {
       icon: <Award size={40} />,
       title: "Excellence 2024",
-      desc: "Depuis notre lancement, nous redéfinissons les standards du voyage sacré à Niamey.",
+      desc: "Prix décerné par les autorités saoudiennes, il confirme notre exigence et notre crédibilité pour l'encadrement des pèlerins.",
       size: "large",
       color: "bg-white text-brand-emerald shadow-xl border border-brand-gold/5"
     },
@@ -50,8 +63,8 @@ export default function WhyUs() {
   ];
 
   return (
-    <section className="py-24 bg-white relative overflow-hidden">
-      <div className="max-w-7xl mx-auto px-6">
+    <section id="apropos" className="py-24 bg-white relative overflow-hidden ">
+      <div className="max-w-7xl mx-auto px-6" style={{marginTop:"-50px"}}>
         <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
           <div className="max-w-2xl">
             <h4 className="text-brand-gold font-bold uppercase tracking-[0.4em] text-[10px] mb-4">Pourquoi AL-HIDAYA ?</h4>
@@ -64,7 +77,29 @@ export default function WhyUs() {
           </p>
         </div>
 
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-6">
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => scrollCarousel('left')}
+            aria-label="Défiler vers la gauche"
+            className="md:hidden absolute left-0 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-brand-emerald text-white shadow-xl"
+          >
+            <ChevronLeft size={20} />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => scrollCarousel('right')}
+            aria-label="Défiler vers la droite"
+            className="md:hidden absolute right-0 top-1/2 -translate-y-1/2 z-20 flex h-10 w-10 items-center justify-center rounded-full bg-brand-emerald text-white shadow-xl"
+          >
+            <ChevronRight size={20} />
+          </button>
+
+          <div
+            ref={carouselRef}
+            className="flex md:grid md:grid-cols-3 gap-4 md:gap-6 overflow-x-auto md:overflow-x-visible snap-x snap-mandatory md:snap-none hide-scrollbar -mx-6 md:mx-0 px-6 md:px-0"
+          >
           {items.map((item, i) => (
             <motion.div
               key={i}
@@ -74,7 +109,7 @@ export default function WhyUs() {
               viewport={{ once: true }}
               whileHover={{ y: -5 }}
               className={cn(
-                "p-6 md:p-8 rounded-[30px] md:rounded-[40px] flex flex-col transition-all duration-300",
+                "p-6 md:p-8 rounded-[30px] md:rounded-[40px] flex flex-col transition-all duration-300 flex-none w-[95vw] md:w-auto snap-center",
                 item.size === 'large' ? "md:col-span-2" : "col-span-1",
                 item.color
               )}
@@ -92,7 +127,39 @@ export default function WhyUs() {
               )}>
                 {item.desc}
               </p>
+              {item.title === "Agréé Officiellement" && (
+                <div className="mt-6 pt-6 border-t border-white/20 flex items-center gap-2">
+                  <span className="text-xs font-semibold opacity-70">Code IATA:</span>
+                  <span className="text-sm font-bold tracking-wider">58201021</span>
+                </div>
+              )}
+              {item.title === "Hébergements bien situés" && (
+                <div className="mt-5 grid grid-cols-2 gap-3">
+                  {[
+                    "/chambre1.jpg",
+                    "/chambre2.jpg",
+                  ].map((image, imageIndex) => (
+                    <div key={imageIndex} className="overflow-hidden rounded-2xl border border-white/20 shadow-lg bg-white/20">
+                      <img
+                        src={image}
+                        alt={`Chambre AL-HIDAYA ${imageIndex + 1}`}
+                        className="h-28 w-full object-cover"
+                        loading="lazy"
+                        decoding="async"
+                      />
+                    </div>
+                  ))}
+                </div>
+              )}
             </motion.div>
+          ))}
+          </div>
+        </div>
+
+        {/* Mobile Swipe Indicator */}
+        <div className="flex md:hidden justify-center gap-2 mt-4 mb-4">
+          {items.map((_, i) => (
+            <div key={i} className="w-1.5 h-1.5 rounded-full bg-brand-emerald/30" />
           ))}
         </div>
 
@@ -102,8 +169,8 @@ export default function WhyUs() {
           <div className="relative flex overflow-hidden">
             <div className="flex gap-12 md:gap-24 animate-marquee whitespace-nowrap py-4">
               {[
-                "OFFICE DU HADJ NIGER", "SAUDI AIRLINES", "MINISTÈRE DE L'INTÉRIEUR", 
-                "HILTON MECCA", "PULLMAN ZAMZAM", "FLY NAS", "SAUDI VISION 2030"
+                "OFFICE DU HADJ NIGER", "COHO", "MINISTÈRE DE L'ÉLEVAGE", "MINISTÈRE DE L'INTÉRIEUR",
+                "HILTON MECCA", "PULLMAN ZAMZAM", "AIRE ETHIOPIAN", "SAUDI AIRLINES", "SAUDI VISION 2030", "INSTITUTIONS PUBLIQUES PARTENAIRES"
               ].map((partner, i) => (
                 <div key={i} className="flex items-center gap-3 text-brand-emerald/20 font-display font-black text-2xl md:text-3xl uppercase tracking-tighter">
                   <div className="w-2 h-2 rounded-full bg-brand-gold/30" />
@@ -112,8 +179,8 @@ export default function WhyUs() {
               ))}
               {/* Duplicate for infinite loop */}
               {[
-                "OFFICE DU HADJ NIGER", "SAUDI AIRLINES", "MINISTÈRE DE L'INTÉRIEUR", 
-                "HILTON MECCA", "PULLMAN ZAMZAM", "FLY NAS", "SAUDI VISION 2030"
+                "OFFICE DU HADJ NIGER", "COHO", "MINISTÈRE DE L'ÉLEVAGE", "MINISTÈRE DE L'INTÉRIEUR",
+                "HILTON MECCA", "PULLMAN ZAMZAM", "AIRE ETHIOPIAN", "SAUDI AIRLINES", "SAUDI VISION 2030", "INSTITUTIONS PUBLIQUES PARTENAIRES"
               ].map((partner, i) => (
                 <div key={i + 10} className="flex items-center gap-3 text-brand-emerald/20 font-display font-black text-2xl md:text-3xl uppercase tracking-tighter">
                   <div className="w-2 h-2 rounded-full bg-brand-gold/30" />

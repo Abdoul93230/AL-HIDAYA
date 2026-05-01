@@ -141,33 +141,6 @@ export default function RequiredDocuments() {
           ))}
         </div>
 
-        <motion.div 
-          initial={{ opacity: 0, y: 50 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 1, ease: "circOut" }}
-          className="mt-12 md:mt-24 p-8 md:p-12 bg-brand-emerald rounded-[40px] md:rounded-[50px] text-white flex flex-col lg:flex-row items-center gap-8 md:gap-10 shadow-2xl relative overflow-hidden group"
-        >
-          <div className="absolute inset-0 bg-gradient-to-r from-white/0 via-white/5 to-white/0 -translate-x-full group-hover:translate-x-full transition-transform duration-1000" />
-          
-          <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-white/10 flex items-center justify-center shrink-0 border border-white/20">
-            <AlertCircle size={32} className="text-brand-gold animate-bounce" />
-          </div>
-          <div className="flex-grow text-center lg:text-left">
-            <h5 className="text-xl md:text-2xl font-black mb-3 md:mb-4 tracking-tight">Note Importante</h5>
-            <p className="text-white/70 text-sm md:text-base leading-relaxed max-w-2xl">
-              Pour les pèlerins mineurs ou les femmes de moins de 45 ans, des documents supplémentaires (autorisation parentale, Mahram) peuvent être requis. Veuillez contacter nos conseillers pour une assistance personnalisée et gratuite.
-            </p>
-          </div>
-          <motion.a 
-            href="#contact"
-            whileHover={{ scale: 1.05, x: 5 }}
-            whileTap={{ scale: 0.95 }}
-            className="w-full lg:w-auto px-10 md:px-12 py-4 md:py-5 bg-brand-gold text-brand-emerald font-black rounded-full uppercase tracking-widest text-xs md:text-sm shadow-xl text-center"
-          >
-            Plus d'infos
-          </motion.a>
-        </motion.div>
       </div>
     </section>
   );

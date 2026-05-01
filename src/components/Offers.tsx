@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'motion/react';
 import { cn } from '../lib/utils';
-import { Check, Star, X, Phone } from 'lucide-react';
+import { Check, Star, X, Phone, ChevronLeft, ChevronRight } from 'lucide-react';
 
 interface Offer {
   title: string;
@@ -10,6 +10,7 @@ interface Offer {
   features: string[];
   image: string;
   isPopular?: boolean;
+  badge?: string;
   fullDetails?: string;
 }
 
@@ -18,7 +19,7 @@ interface OfferProps extends Offer {
   key?: React.Key;
 }
 
-export function OfferCard({ title, type, price, features, image, isPopular, fullDetails, onOpenModal }: OfferProps) {
+export function OfferCard({ title, type, price, features, image, isPopular, badge, fullDetails, onOpenModal }: OfferProps) {
   const x = useMotionValue(0);
   const y = useMotionValue(0);
 
@@ -49,7 +50,7 @@ export function OfferCard({ title, type, price, features, image, isPopular, full
     <motion.div
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      onClick={() => onOpenModal({ title, type, price, features, image, isPopular, fullDetails })}
+      onClick={() => onOpenModal({ title, type, price, features, image, isPopular, badge, fullDetails })}
       style={{
         rotateY,
         rotateX,
@@ -63,6 +64,11 @@ export function OfferCard({ title, type, price, features, image, isPopular, full
       {isPopular && (
         <div className="absolute top-6 left-6 z-20 px-4 py-2 bg-brand-gold text-brand-emerald text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg animate-pulse whitespace-nowrap">
           Places Limitées (12)
+        </div>
+      )}
+      {badge && (
+        <div className="absolute top-6 right-6 z-20 px-4 py-2 bg-brand-emerald text-white text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg whitespace-nowrap">
+          {badge}
         </div>
       )}
       <div 
@@ -118,83 +124,101 @@ export function OfferCard({ title, type, price, features, image, isPopular, full
 
 export default function OffersSection() {
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
-  const [activeSeason, setActiveSeason] = useState<'2025-2026' | '2026-2027'>('2025-2026');
+  const [activeSeason, setActiveSeason] = useState<'2025-2026' | '2026-2027'>('2026-2027');
+  const carouselRef = useRef<HTMLDivElement | null>(null);
+
+  const scrollCarousel = (direction: 'left' | 'right') => {
+    const container = carouselRef.current;
+    if (!container) return;
+
+    const offset = Math.round(container.clientWidth * 0.8);
+    container.scrollBy({
+      left: direction === 'left' ? -offset : offset,
+      behavior: 'smooth',
+    });
+  };
 
   const offers2526: Offer[] = [
     {
-      title: "Oumra Decembre 2025",
+      title: "Oumra Décembre 2025",
       type: "Oumra",
       price: "1 100 000",
       image: "https://images.unsplash.com/photo-1565552134634-2f7555732dad?q=80&w=1200&auto=format",
       features: [
-        "Du 23 dec. 2025 au 04 jan. 2026",
-        "Visa et assurance inclus",
-        "Hotel a proximite du Haram",
-        "Encadrement personnalise",
-        "Kit pelerin offert"
+        "Visa inclus",
+        "Hébergement proche du Haram",
+        "Transport aérien et terrestre",
       ],
-      fullDetails: "Celebrez la fin d'annee dans la serenite des lieux saints. Un sejour de 12 jours concu pour allier confort et spiritualite."
+      fullDetails: "Du 23 décembre 2025 au 4 janvier 2026. Célébrez la fin d'année dans la sérénité des lieux saints avec encadrement personnalisé et kit pèlerin offert."
     },
     {
-      title: "Oumra Ramadan (1er Gr.)",
+      title: "Oumra Ramadan 2026 (1er groupe)",
       type: "Oumra",
       price: "1 900 000",
       image: "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=1200&auto=format",
       isPopular: true,
       features: [
-        "Du 16 fev. 2026 au 23 mars 2026",
-        "Mois complet de Ramadan",
-        "Hotels 4 etoiles et 5 etoiles",
-        "Derniere decade incluse",
-        "Pension complete (Ifthar/Suhoor)"
+        "Visa inclus",
+        "Hébergement 4 à 5 étoiles",
+        "Transport climatisé et repas (Iftar/Suhoor)",
       ],
-      fullDetails: "Le voyage d'une vie. Vivez le mois de Ramadan en entier a La Mecque et Medine avec un encadrement H24."
+      fullDetails: "Du 16 février au 23 mars 2026. Vivez le mois de Ramadan complet à La Mecque et Médine avec encadrement H24 et dernière décade incluse."
     }
   ];
 
   const offers2627: Offer[] = [
     {
-      title: "Oumra Aout 2026",
+      title: "Oumra Août 2026",
       type: "Oumra",
       price: "1 100 000",
+      badge: "Acompte 150 000 FCFA",
       image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1200&auto=format",
       features: [
-        "Du 05 aout au 20 aout 2026",
         "Visa inclus",
-        "Hotel premium",
-        "Transport Medine et Mecque",
-        "Kit pelerin offert"
+        "Hébergement climatisé",
+        "Transport aérien et terrestre",
       ],
-      fullDetails: "Partez durant l'ete 2026. Un voyage de 15 jours tout inclus, ideal pour une experience spirituelle fluide."
+      fullDetails: "Du 5 au 20 août 2026. Voyage de 15 jours pour vivre une expérience spirituelle complète avec encadrement dédié et kit pèlerin offert."
     },
     {
-      title: "Oumra Decembre 2026",
+      title: "Oumra Décembre 2026",
       type: "Oumra",
       price: "1 200 000",
+      badge: "Acompte 150 000 FCFA",
       image: "https://images.unsplash.com/photo-1564769625905-50e93615e769?q=80&w=1200&auto=format",
       features: [
-        "Du 23 dec. 2026 au 02 jan. 2027",
         "Visa inclus",
-        "Hotel Medine et Mecque",
-        "Transport climatise",
-        "Encadrement devoue"
+        "Hébergement confortable",
+        "Transport climatisé inclus",
       ],
-      fullDetails: "Planifiez votre fin d'annee 2026 avec un sejour tout confort pour debuter 2027 sous les meilleurs auspices."
+      fullDetails: "Du 23 décembre 2026 au 2 janvier 2027. Planifiez votre fin d'année pour débuter 2027 dans la paix et la sérénité."
     },
     {
-      title: "Hadj 2027 (Pre-inscription)",
+      title: "Oumra Ramadan 2026",
+      type: "Oumra",
+      price: "1 800 000",
+      badge: "2 formules",
+      image: "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=1200&auto=format",
+      features: [
+        "Visa inclus",
+        "Formule 1 mois : 1 900 000 FCFA",
+        "Formule 3 semaines : 1 800 000 FCFA",
+        "Transport aérien et terrestre",
+      ],
+      fullDetails: "Ramadan 2026 réunit deux formules dans une seule offre: 1 mois à 1 900 000 FCFA ou 3 semaines à 1 800 000 FCFA. Chaque formule inclut le visa, l'hébergement et le transport aérien et terrestre avec encadrement dédié."
+    },
+    {
+      title: "Hadj 2027",
       type: "Hadj",
-      price: "3 146 149",
+      price: "3 184 469",
       image: "https://images.unsplash.com/photo-1519817650390-64a93db51149?q=80&w=1200&auto=format",
       isPopular: true,
       features: [
-        "Dates selon calendrier officiel",
-        "Hotel prestige proche du Haram",
-        "Bus climatises nouvelle generation",
-        "Encadrement medical et religieux",
-        "Kit complet AL-HIDAYA"
+        "Visa inclus",
+        "Hébergement près du Haram",
+        "Transport nouvelle génération",
       ],
-      fullDetails: "Anticipez votre pelerinage 2027. Prix provisoire sujet aux directives officielles. Acompte de 150 000 FCFA pour valider votre pre-inscription."
+      fullDetails: "Dates selon le calendrier officiel. Pèlerinage complet avec encadrement médical et religieux, kit AL-HIDAYA fourni. Acompte 150 000 FCFA pour valider."
     }
   ];
 
@@ -212,7 +236,7 @@ export default function OffersSection() {
         className="max-w-7xl mx-auto px-6 -mt-16 md:-mt-32 relative z-30"
         style={{ perspective: "1000px" }}
       >
-        <div className="text-center mb-8 md:mb-12 relative px-4 py-5 md:py-6 rounded-[40px] bg-white/60 backdrop-blur-xl border border-white/40 shadow-xl">
+        <div className="text-center mb-8 md:mb-12 relative px-4 py-5 md:py-6 md:mt-[50px] rounded-[40px] bg-white/60 backdrop-blur-xl shadow-xl">
           <motion.div
             initial={{ opacity: 0, scale: 0.8 }}
             whileInView={{ opacity: 1, scale: 1 }}
@@ -264,28 +288,49 @@ export default function OffersSection() {
           </div>
         </div>
 
-        <div
-          className={cn(
-            "flex overflow-x-auto md:grid gap-8 mb-12 md:mb-24 pb-8 md:pb-0 snap-x snap-mandatory hide-scrollbar -mx-6 px-6 pt-4 md:mx-auto md:px-0",
-            currentOffers.length <= 1
-              ? "md:grid-cols-1 md:max-w-xl"
-              : currentOffers.length === 2
-                ? "md:grid-cols-2 md:max-w-5xl"
-                : "md:grid-cols-2 lg:grid-cols-4"
-          )}
-        >
-          {currentOffers.map((offer, idx) => (
-            <div
-              key={idx}
-              id={idx === firstHadjIndex ? 'hadj' : idx === firstOumraIndex ? 'oumra' : undefined}
-              className="flex-none w-[300px] md:w-auto snap-center"
-            >
-              <OfferCard
-                {...offer}
-                onOpenModal={setSelectedOffer}
-              />
-            </div>
-          ))}
+        <div className="relative">
+          <button
+            type="button"
+            onClick={() => scrollCarousel('left')}
+            aria-label="Défiler vers la gauche"
+            className="md:hidden absolute left-0 top-1/2 -translate-y-1/2 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-brand-emerald text-white shadow-xl ring-1 ring-white/20"
+          >
+            <ChevronLeft size={22} />
+          </button>
+
+          <button
+            type="button"
+            onClick={() => scrollCarousel('right')}
+            aria-label="Défiler vers la droite"
+            className="md:hidden absolute right-0 top-1/2 -translate-y-1/2 z-20 flex h-11 w-11 items-center justify-center rounded-full bg-brand-emerald text-white shadow-xl ring-1 ring-white/20"
+          >
+            <ChevronRight size={22} />
+          </button>
+
+          <div
+            ref={carouselRef}
+            className={cn(
+              "flex overflow-x-auto md:grid gap-8 mb-12 md:mb-24 pb-8 md:pb-0 snap-x snap-mandatory hide-scrollbar -mx-6 px-12 md:px-0 pt-4 md:mx-auto",
+              currentOffers.length <= 1
+                ? "md:grid-cols-1 md:max-w-xl"
+                : currentOffers.length === 2
+                  ? "md:grid-cols-2 md:max-w-5xl"
+                  : "md:grid-cols-2 lg:grid-cols-4"
+            )}
+          >
+            {currentOffers.map((offer, idx) => (
+              <div
+                key={idx}
+                id={idx === firstHadjIndex ? 'hadj' : idx === firstOumraIndex ? 'oumra' : undefined}
+                className="flex-none w-[300px] md:w-auto snap-center"
+              >
+                <OfferCard
+                  {...offer}
+                  onOpenModal={setSelectedOffer}
+                />
+              </div>
+            ))}
+          </div>
         </div>
 
         {activeSeason === '2026-2027' && (
@@ -305,7 +350,7 @@ export default function OffersSection() {
               </div>
             </div>
             <motion.a
-              href="https://wa.me/22789971764"
+              href="https://wa.me/22797564077"
               whileHover={{ scale: 1.05 }}
               className="px-8 py-4 bg-brand-gold text-brand-emerald font-black rounded-full uppercase tracking-widest text-xs shadow-xl"
             >
@@ -313,13 +358,6 @@ export default function OffersSection() {
             </motion.a>
           </motion.div>
         )}
-
-        <div className="bg-brand-sand/50 backdrop-blur-sm border border-brand-gold/10 p-8 rounded-[40px] text-center">
-          <p className="text-brand-emerald font-bold text-sm">
-            <span className="text-brand-gold uppercase tracking-widest mr-2">Conditions :</span>
-            Acompte obligatoire de <span className="text-brand-emerald font-black underline decoration-brand-gold shadow-sm">150 000 FCFA</span> pour valider toute reservation.
-          </p>
-        </div>
       </motion.div>
 
       {/* MODAL OFFER DETAILS */}
@@ -358,7 +396,7 @@ export default function OffersSection() {
 
               <div className="p-8 md:p-12 flex flex-col">
                 <div className="mb-8">
-                   <h4 className="text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-4">Inclusions Premium</h4>
+                   <h4 className="text-[10px] uppercase tracking-widest font-bold text-gray-400 mb-4">Services Inclus</h4>
                    <div className="grid grid-cols-1 gap-4">
                       {selectedOffer.features.map((f, i) => (
                         <div key={i} className="flex items-center gap-3 text-brand-emerald font-bold text-sm">
@@ -383,7 +421,7 @@ export default function OffersSection() {
                       {selectedOffer.price} <span className="text-xs uppercase opacity-40">FCFA</span>
                    </div>
                    <motion.a
-                     href={`https://wa.me/22789502485?text=Bonjour, je souhaite réserver l'offre ${selectedOffer.title}`}
+                     href={`https://wa.me/22797564077?text=Bonjour, je souhaite réserver l'offre ${selectedOffer.title}`}
                      target="_blank"
                      rel="noopener noreferrer"
                      whileHover={{ scale: 1.05 }}

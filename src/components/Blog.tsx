@@ -85,6 +85,10 @@ export default function Blog({ onBack }: { onBack: () => void }) {
 
   const selectedPost = posts.find(p => p.id === selectedPostId);
 
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  };
+
   return (
     <div className="bg-brand-sand min-h-screen pb-20 pt-32">
       <div className="max-w-7xl mx-auto px-6">
@@ -164,7 +168,10 @@ export default function Blog({ onBack }: { onBack: () => void }) {
 
                       <div className="pt-6 border-t border-gray-50 flex items-center justify-between">
                          <button 
-                           onClick={() => setSelectedPostId(post.id)}
+                           onClick={() => {
+                             scrollToTop();
+                             setSelectedPostId(post.id);
+                           }}
                            className="flex items-center gap-2 text-brand-emerald font-black uppercase tracking-widest text-[10px] group-hover:gap-4 transition-all"
                          >
                             Lire la suite <ArrowRight size={14} className="text-brand-gold" />
@@ -188,7 +195,10 @@ export default function Blog({ onBack }: { onBack: () => void }) {
               className="max-w-4xl mx-auto"
             >
               <button 
-                onClick={() => setSelectedPostId(null)}
+                onClick={() => {
+                  scrollToTop();
+                  setSelectedPostId(null);
+                }}
                 className="flex items-center gap-2 text-brand-gold font-black uppercase tracking-widest text-[10px] mb-8 hover:gap-4 transition-all"
               >
                 <ArrowLeft size={16} /> Retour aux articles
