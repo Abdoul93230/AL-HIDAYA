@@ -185,7 +185,7 @@ export default function App() {
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8 mb-10 md:mb-12">
                       {[
                         { icon: <ShieldCheck size={28} />, title: "Agréments", desc: "Reconnus officiellement par l'État du Niger." },
-                        { icon: <Star size={28} />, title: "Prestige", desc: "Hôtels 5 étoiles à la Mecque et Médine." }
+                        { icon: <Star size={28} />, title: "Prestige", desc: "Hôtels à la Mecque et Médine." }
                       ].map((item, i) => (
                         <motion.div
                           key={i}
