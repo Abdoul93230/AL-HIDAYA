@@ -47,7 +47,7 @@ export default function Testimonials() {
         
         <div className="w-full lg:w-auto grid grid-cols-3 lg:flex shrink-0 gap-6 md:gap-12 items-center justify-center">
           <div className="text-center">
-            <span className="block text-2xl md:text-3xl font-extrabold text-brand-gold">2024</span>
+            <span className="block text-2xl md:text-3xl font-extrabold text-brand-gold">2019</span>
             <span className="text-[10px] md:text-[11px] uppercase tracking-wider text-gray-500 font-bold">Lancement</span>
           </div>
           <div className="text-center">
