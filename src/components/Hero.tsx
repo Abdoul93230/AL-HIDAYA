@@ -23,19 +23,19 @@ export default function Hero() {
   const mouseXSpring = useSpring(xMouse);
   const mouseYSpring = useSpring(yMouse);
 
-  const rotateX = useTransform(mouseYSpring, [-100, 100], ["10deg", "-10deg"]);
-  const rotateY = useTransform(mouseXSpring, [-100, 100], ["-10deg", "10deg"]);
+  const rotateX = useTransform(mouseYSpring, [-100, 100], ['10deg', '-10deg']);
+  const rotateY = useTransform(mouseXSpring, [-100, 100], ['-10deg', '10deg']);
 
   const floatingOrbs = useMemo(
     () =>
-      [...Array(5)].map((_, i) => ({
+      [...Array(lowPerfMode ? 0 : 3)].map((_, i) => ({
         id: i,
         width: Math.random() * 300 + 200,
         height: Math.random() * 300 + 200,
         top: `${Math.random() * 80}%`,
         left: `${Math.random() * 80}%`,
       })),
-    [],
+    [lowPerfMode],
   );
 
   const handleMouseMove = (e: React.MouseEvent) => {
@@ -58,7 +58,7 @@ export default function Hero() {
         style={lowPerfMode ? undefined : { rotateX, rotateY }}
         initial={lowPerfMode ? undefined : { scale: 1.1 }}
         animate={lowPerfMode ? undefined : { scale: 1 }}
-        transition={lowPerfMode ? undefined : { duration: 10, repeat: Infinity, repeatType: "reverse" }}
+        transition={lowPerfMode ? undefined : { duration: 10, repeat: Infinity, repeatType: 'reverse' }}
         className="absolute inset-0 z-0 overflow-hidden pointer-events-none"
       >
         {/* High-quality Background Image for All Screens */}
@@ -97,23 +97,23 @@ export default function Hero() {
             transition={{
               duration: 15 + orb.id * 5,
               repeat: Infinity,
-              ease: "easeInOut"
+              ease: 'easeInOut'
             }}
           />
         ))}
         </div>
       )}
-      
+
       <motion.div 
-        style={lowPerfMode ? undefined : { rotateX, rotateY, transformStyle: "preserve-3d" }}
+        style={lowPerfMode ? undefined : { rotateX, rotateY, transformStyle: 'preserve-3d' }}
         className="relative z-20 max-w-6xl mx-auto px-6 text-center"
       >
         <motion.div
-          style={{ transform: "translateZ(100px)" }}
+          style={{ transform: 'translateZ(100px)' }}
           initial={{ opacity: 0, y: 50 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 1.2, ease: "circOut" }}
-          className="relative"
+          transition={{ duration: 1.2, ease: 'circOut' }}
+            className="relative"
         >
           {/* Accreditation Badge - Top Right */}
           <motion.div
@@ -159,7 +159,6 @@ export default function Hero() {
             </motion.a>
           </div>
         </motion.div>
-      </motion.div>
       
       {/* 3D Scroll Indicator */}
       <motion.div 
@@ -169,6 +168,7 @@ export default function Hero() {
       >
         <span className="text-white/50 text-[10px] uppercase tracking-[0.3em] font-bold">Découvrir</span>
         <div className="w-px h-16 bg-gradient-to-b from-brand-gold/0 via-brand-gold to-brand-gold/0" />
+      </motion.div>
       </motion.div>
     </section>
   );

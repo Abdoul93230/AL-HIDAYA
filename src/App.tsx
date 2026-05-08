@@ -15,6 +15,43 @@ import { Star, MapPin, Clock, BadgeCheck, Camera, Heart, ShieldCheck, Phone, X, 
 import { cn } from './lib/utils';
 import { useEffect, useMemo, useState } from 'react';
 
+const galleryImages = [
+  '/624700658_876937178464558_4558521500937380253_n.jpg',
+  '/526965774_732816946209916_5096855490665871705_n.jpg',
+  '/527191524_732816866209924_5571990788218110380_n.jpg',
+  '/499703444_674677528690525_2367499767595363538_n.jpg',
+  '/498179141_674677565357188_1164557361268280119_n.jpg',
+  '/487241754_638227569002188_7422085376426020883_n.jpg',
+  '/672672775_939493652208910_2045622064777589843_n.jpg',
+  '/495377121_665431132948498_7565671843195843296_n.jpg',
+] as const;
+
+const gallery = {
+  Formation: [
+    { src: '/f1.jpeg', alt: 'Séance de formation AL-HIDAYA' },
+    { src: '/f2.jpeg', alt: 'Formation et enseignement' },
+    { src: '/f3.jpeg', alt: 'Atelier préparation rites' },
+    { src: '/f4.jpeg', alt: 'Atelier préparation rites' },
+    { src: '/f5.jpeg', alt: 'Atelier préparation rites' },
+    { src: '/f6.jpeg', alt: 'Atelier préparation rites' },
+  ],
+  Ramadan: [
+    { src: '/r1.jpeg', alt: 'Iftar - moment de partage' },
+    { src: '/r2.jpeg', alt: 'Repas pendant le Ramadan' },
+    { src: '/r3.jpeg', alt: 'Repas pendant le Ramadan' },
+    { src: '/r4.jpeg', alt: 'Repas pendant le Ramadan' },
+  ],
+  Autres: [
+    { src: '/498179141_674677565357188_1164557361268280119_n.jpg', alt: 'Moments divers' },
+    { src: '/487241754_638227569002188_7422085376426020883_n.jpg', alt: 'Souvenirs des pèlerins' },
+    { src: '/495377121_665431132948498_7565671843195843296_n.jpg', alt: 'Autres événements' },
+    { src: '/672672775_939493652208910_2045622064777589843_n.jpg', alt: 'Autres événements' },
+    { src: '/526965774_732816946209916_5096855490665871705_n.jpg', alt: 'Autres événements' },
+    { src: '/527191524_732816866209924_5571990788218110380_n.jpg', alt: 'Autres événements' },
+    { src: '/499703444_674677528690525_2367499767595363538_n.jpg', alt: 'Autres événements' },
+  ],
+} as const;
+
 export default function App() {
   const { scrollYProgress } = useScroll();
   const [selectedGalleryImg, setSelectedGalleryImg] = useState<string | null>(null);
@@ -47,7 +84,7 @@ export default function App() {
 
   const backgroundBlobs = useMemo(
     () =>
-      [...Array(6)].map((_, i) => ({
+      [...Array(lowPerfMode ? 0 : 1)].map((_, i) => ({
         id: i,
         width: 400 + Math.random() * 300,
         height: 400 + Math.random() * 300,
@@ -57,47 +94,10 @@ export default function App() {
         xOffset: Math.random() * 200 - 100,
         yOffset: Math.random() * 200 - 100,
       })),
-    [],
+    [lowPerfMode],
   );
 
-  const galleryImages = [
-    "/624700658_876937178464558_4558521500937380253_n.jpg",
-    "/526965774_732816946209916_5096855490665871705_n.jpg",
-    "/527191524_732816866209924_5571990788218110380_n.jpg",
-    "/499703444_674677528690525_2367499767595363538_n.jpg",
-    "/498179141_674677565357188_1164557361268280119_n.jpg",
-    "/487241754_638227569002188_7422085376426020883_n.jpg",
-    "/672672775_939493652208910_2045622064777589843_n.jpg",
-    "/495377121_665431132948498_7565671843195843296_n.jpg"
-  ];
-
   const [galleryCategory, setGalleryCategory] = useState<'Formation' | 'Ramadan' | 'Autres'>('Formation');
-
-  const gallery = {
-    Formation: [
-      { src: "/f1.jpeg", alt: "Séance de formation AL-HIDAYA" },
-      { src: "/f2.jpeg", alt: "Formation et enseignement" },
-      { src: "/f3.jpeg", alt: "Atelier préparation rites" },
-      { src: "/f4.jpeg", alt: "Atelier préparation rites" },
-      { src: "/f5.jpeg", alt: "Atelier préparation rites" },
-      { src: "/f6.jpeg", alt: "Atelier préparation rites" },
-    ],
-    Ramadan: [
-      { src: "/r1.jpeg", alt: "Iftar - moment de partage" },
-      { src: "/r2.jpeg", alt: "Repas pendant le Ramadan" },
-      { src: "/r3.jpeg", alt: "Repas pendant le Ramadan" },
-      { src: "/r4.jpeg", alt: "Repas pendant le Ramadan" },
-    ],
-    Autres: [
-      { src: "/498179141_674677565357188_1164557361268280119_n.jpg", alt: "Moments divers" },
-      { src: "/487241754_638227569002188_7422085376426020883_n.jpg", alt: "Souvenirs des pèlerins" },
-      { src: "/495377121_665431132948498_7565671843195843296_n.jpg", alt: "Autres événements" },
-      { src: "/672672775_939493652208910_2045622064777589843_n.jpg", alt: "Autres événements" },
-      { src: "/526965774_732816946209916_5096855490665871705_n.jpg", alt: "Autres événements" },
-      { src: "/527191524_732816866209924_5571990788218110380_n.jpg", alt: "Autres événements" },
-      { src: "/499703444_674677528690525_2367499767595363538_n.jpg", alt: "Autres événements" }
-    ]
-  } as const;
 
   return (
     <MotionConfig reducedMotion={lowPerfMode ? 'always' : 'never'}>
