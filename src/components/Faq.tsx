@@ -3,47 +3,49 @@ import { motion, AnimatePresence } from 'motion/react';
 import { ChevronRight, HelpCircle, ShieldCheck, Wallet, Calendar, Users, Plane, MousePointer2, FileText } from 'lucide-react';
 import { cn } from '../lib/utils';
 
-const faqs = [
-  {
-    icon: <FileText className="w-6 h-6" />,
-    q: "Quels documents dois-je fournir ?",
-    a: "Seul le passeport original est requis : valide au moins 6 mois après la date de retour. Les autres pièces (photos, carnet de vaccination, copie d'identité) ne sont généralement pas nécessaires lors de l'inscription en ligne et sont demandées uniquement au cas par cas.",
-    category: "Documents"
-  },
-  {
-    icon: <Calendar className="w-6 h-6" />,
-    q: "Quelles sont les dates exactes pour le Hadj 2026 ?",
-    a: "Les dates définitives sont fixées par le calendrier lunaire saoudien. Nous prévoyons un départ vers début juin 2026 pour un retour fin juin/début juillet. Un calendrier précis vous sera remis dès l'ouverture officielle des visas.",
-    category: "Logistique"
-  },
-  {
-    icon: <ShieldCheck className="w-6 h-6" />,
-    q: "Quelles sont les garanties de réservation ?",
-    a: "Votre réservation est protégée par un contrat légal d'agrément. Nous sécurisons vos places de vols et vos hébergements immédiatement après le premier versement, vous garantissant aucun changement de tarif.",
-    category: "Confiance"
-  },
-  {
-    icon: <Plane className="w-6 h-6" />,
-    q: "Le visa est-il inclus dans le prix ?",
-    a: "Oui, tous nos forfaits incluent les frais de visa, l'assurance médicale obligatoire saoudienne ainsi que l'accompagnement administratif complet au Niger. Pas de frais cachés.",
-    category: "Logistique"
-  },
-  {
-    icon: <Users className="w-6 h-6" />,
-    q: "Quel type d'accompagnement religieux ?",
-    a: "Chaque groupe est placé sous la supervision d'un encadrant religieux expérimenté. Des sessions de formation et des rappels quotidiens sont organisés pour que chaque rite soit accompli avec science et sérénité.",
-    category: "Spiritualité"
-  },
-  {
-    icon: <Wallet className="w-6 h-6" />,
-    q: "Puis-je payer en plusieurs fois ?",
-    a: "Absolument. Nous proposons des facilités de paiement échelonnées jusqu'au départ. Un premier acompte valide votre dossier, puis nous établissons ensemble un plan de versement flexible et transparent.",
-    category: "Paiement"
-  }
-];
-
 export default function Faq() {
   const [activeIndex, setActiveIndex] = useState(0);
+  const currentYear = new Date().getFullYear();
+  const nextYear = currentYear + 1;
+
+  const faqs = [
+    {
+      icon: <FileText className="w-6 h-6" />,
+      q: "Quels documents dois-je fournir ?",
+      a: "Seul le passeport original est requis : valide au moins 6 mois après la date de retour. Nous nous chargeons de toutes les démarches administratives pour l'obtention du visa saoudien, y compris la collecte des documents nécessaires et la soumission auprès des autorités compétentes.",
+      category: "Documents"
+    },
+    {
+      icon: <Calendar className="w-6 h-6" />,
+      q: `Quelles sont les dates exactes pour le Hadj ${nextYear} ?`,
+      a: `Les dates définitives sont fixées par le calendrier lunaire saoudien. Nous prévoyons un départ vers début mai ${nextYear} pour un retour fin mai/début juin. Un calendrier précis vous sera remis dès l'ouverture officielle des visas.`,
+      category: "Logistique"
+    },
+    {
+      icon: <ShieldCheck className="w-6 h-6" />,
+      q: "Quelles sont les garanties de réservation ?",
+      a: "Votre réservation est protégée par un contrat légal d'agrément. Nous sécurisons vos places de vols et vos hébergements immédiatement après le premier versement, vous garantissant aucun changement de tarif.",
+      category: "Confiance"
+    },
+    {
+      icon: <Plane className="w-6 h-6" />,
+      q: "Le visa est-il inclus dans le prix ?",
+      a: "Oui, tous nos forfaits incluent les frais de visa, l'assurance médicale obligatoire saoudienne ainsi que l'accompagnement administratif complet au Niger. Pas de frais cachés.",
+      category: "Logistique"
+    },
+    {
+      icon: <Users className="w-6 h-6" />,
+      q: "Quel type d'accompagnement religieux ?",
+      a: "Chaque groupe est placé sous la supervision d'un encadrant religieux expérimenté. Des séances de formation dés l'inscription chaque samedi et dimanche sont organisées pour que chaque rite soit accompli avec science et sérénité.",
+      category: "Spiritualité"
+    },
+    {
+      icon: <Wallet className="w-6 h-6" />,
+      q: "Puis-je payer en plusieurs fois ?",
+      a: "Absolument. Nous proposons des facilités de paiement échelonnées jusqu'au départ. Un premier acompte valide votre dossier, puis nous établissons ensemble un plan de versement flexible et transparent.",
+      category: "Paiement"
+    }
+  ];
 
   return (
     <section id="FAQ" className="py-24 md:py-32 bg-brand-sand relative overflow-hidden">

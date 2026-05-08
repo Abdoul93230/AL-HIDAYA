@@ -48,8 +48,8 @@ export default function WhyUs() {
     },
     {
       icon: <Award size={40} />,
-      title: "Excellence 2024",
-      desc: "Prix décerné par les autorités saoudiennes, il confirme notre exigence et notre crédibilité pour l'encadrement des pèlerins.",
+      title: "Excellence depuis 2019",
+      desc: "Une expérience bâtie depuis 2019 pour garantir exigence, sérieux et crédibilité dans l'encadrement des pèlerins.",
       size: "large",
       color: "bg-white text-brand-emerald shadow-xl border border-brand-gold/5"
     },
@@ -179,8 +179,8 @@ export default function WhyUs() {
               ))}
               {/* Duplicate for infinite loop */}
               {[
-                "OFFICE DU HADJ NIGER", "COHO", "MINISTÈRE DE L'ÉLEVAGE", "MINISTÈRE DE L'INTÉRIEUR",
-                "HILTON MECCA", "PULLMAN ZAMZAM", "AIRE ETHIOPIAN", "SAUDI AIRLINES", "SAUDI VISION 2030", "INSTITUTIONS PUBLIQUES PARTENAIRES"
+                "OFFICE DU HADJ NIGER", "COHO", "MINISTÈRE DE L'ÉLEVAGE",
+                "HILTON MECCA", "AIRE ETHIOPIAN", "SAUDI VISION 2030", "INSTITUTIONS PUBLIQUES PARTENAIRES"
               ].map((partner, i) => (
                 <div key={i + 10} className="flex items-center gap-3 text-brand-emerald/20 font-display font-black text-2xl md:text-3xl uppercase tracking-tighter">
                   <div className="w-2 h-2 rounded-full bg-brand-gold/30" />

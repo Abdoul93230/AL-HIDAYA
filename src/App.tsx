@@ -71,6 +71,34 @@ export default function App() {
     "/495377121_665431132948498_7565671843195843296_n.jpg"
   ];
 
+  const [galleryCategory, setGalleryCategory] = useState<'Formation' | 'Ramadan' | 'Autres'>('Formation');
+
+  const gallery = {
+    Formation: [
+      { src: "/f1.jpeg", alt: "Séance de formation AL-HIDAYA" },
+      { src: "/f2.jpeg", alt: "Formation et enseignement" },
+      { src: "/f3.jpeg", alt: "Atelier préparation rites" },
+      { src: "/f4.jpeg", alt: "Atelier préparation rites" },
+      { src: "/f5.jpeg", alt: "Atelier préparation rites" },
+      { src: "/f6.jpeg", alt: "Atelier préparation rites" },
+    ],
+    Ramadan: [
+      { src: "/r1.jpeg", alt: "Iftar - moment de partage" },
+      { src: "/r2.jpeg", alt: "Repas pendant le Ramadan" },
+      { src: "/r3.jpeg", alt: "Repas pendant le Ramadan" },
+      { src: "/r4.jpeg", alt: "Repas pendant le Ramadan" },
+    ],
+    Autres: [
+      { src: "/498179141_674677565357188_1164557361268280119_n.jpg", alt: "Moments divers" },
+      { src: "/487241754_638227569002188_7422085376426020883_n.jpg", alt: "Souvenirs des pèlerins" },
+      { src: "/495377121_665431132948498_7565671843195843296_n.jpg", alt: "Autres événements" },
+      { src: "/672672775_939493652208910_2045622064777589843_n.jpg", alt: "Autres événements" },
+      { src: "/526965774_732816946209916_5096855490665871705_n.jpg", alt: "Autres événements" },
+      { src: "/527191524_732816866209924_5571990788218110380_n.jpg", alt: "Autres événements" },
+      { src: "/499703444_674677528690525_2367499767595363538_n.jpg", alt: "Autres événements" }
+    ]
+  } as const;
+
   return (
     <MotionConfig reducedMotion={lowPerfMode ? 'always' : 'never'}>
       <div className="relative font-sans selection:bg-brand-gold selection:text-brand-emerald bg-white overflow-x-hidden">
@@ -118,7 +146,7 @@ export default function App() {
           style={{ scaleX }}
         />
 
-        <Navbar onNavigate={setCurrentPage} />
+        <Navbar onNavigate={setCurrentPage} currentPage={currentPage} />
         <WhatsAppButton />
 
         <AnimatePresence mode="wait">
@@ -148,7 +176,7 @@ export default function App() {
                     <div className="relative z-10 rounded-[30px] overflow-hidden shadow-2xl">
                       <img
                         src="/alhidaya.jpg"
-                        alt="Formation AL-HIDAYA"
+                        alt="Logo AL-HIDAYA"
                         className="w-full h-full object-cover"
                       />
                     </div>
@@ -179,7 +207,7 @@ export default function App() {
                       L'Excellence <br className="hidden sm:block" /> <span className="text-brand-gold">au Service</span> du pèlerin
                     </h2>
                     <p className="text-gray-800 text-lg md:text-xl leading-relaxed mb-8 md:mb-10 font-bold text-center md:text-left">
-                      AL-HIDAYA est le fruit d'une passion pour le service sacré. Depuis 2024, nous mettons tout en œuvre pour que chaque pèlerin puisse accomplir ses rites dans la paix et la sérénité.
+                      AL-HIDAYA est le fruit d'une passion pour le service sacré. Depuis 2019, nous mettons tout en œuvre pour que chaque pèlerin puisse accomplir ses rites dans la paix et la sérénité.
                     </p>
 
                     <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8 mb-10 md:mb-12">
@@ -230,39 +258,53 @@ export default function App() {
                     <p className="text-gray-500 max-w-lg mx-auto">Revivez les moments forts de nos pèlerinages.</p>
                   </div>
 
+                  <div className="flex items-center justify-center gap-3 mb-6">
+                    {(['Formation', 'Ramadan', 'Autres'] as const).map((cat) => (
+                      <button
+                        key={cat}
+                        onClick={() => setGalleryCategory(cat)}
+                        className={cn(
+                          "px-4 py-2 rounded-full text-sm font-bold uppercase tracking-wider",
+                          galleryCategory === cat ? "bg-brand-emerald text-white" : "bg-white border border-brand-emerald text-brand-emerald"
+                        )}
+                      >
+                        {cat}
+                      </button>
+                    ))}
+                  </div>
+
                   <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-                    {galleryImages.map((img, i) => (
+                    {gallery[galleryCategory].map((img, i) => (
                       <motion.div
-                        key={i}
+                        key={img.src}
                         initial={{ opacity: 0, scale: 0.8, y: 50 }}
                         whileInView={{ opacity: 1, scale: 1, y: 0 }}
-                        onClick={() => setSelectedGalleryImg(img)}
+                        onClick={() => setSelectedGalleryImg(img.src)}
                         transition={{
                           duration: 0.6,
-                          delay: i * 0.1,
+                          delay: i * 0.08,
                           type: "spring",
                           stiffness: 100
                         }}
                         viewport={{ once: true }}
                         whileHover={{
-                          y: -10,
-                          transition: { duration: 0.2 }
+                          y: -8,
+                          transition: { duration: 0.18 }
                         }}
                         className={cn(
-                          "relative overflow-hidden group rounded-[30px] shadow-lg cursor-pointer",
+                          "relative overflow-hidden group rounded-[20px] shadow-lg cursor-pointer",
                           i % 3 === 0 ? "md:row-span-2 md:col-span-2" : ""
                         )}
                       >
                         <img
-                          src={img}
-                          alt={`AL-HIDAYA Gallery ${i}`}
+                          src={img.src}
+                          alt={img.alt}
                           loading={i < 2 ? 'eager' : 'lazy'}
                           decoding="async"
-                          fetchPriority={i === 0 ? 'high' : 'low'}
-                          className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
+                          className="w-full h-48 object-cover transition-transform duration-700 group-hover:scale-110"
                         />
                         <div className="absolute inset-0 bg-brand-emerald/40 opacity-0 group-hover:opacity-100 transition-opacity duration-500 flex items-center justify-center">
-                          <Camera className="text-white scale-0 group-hover:scale-125 transition-transform" size={40} />
+                          <Camera className="text-white scale-0 group-hover:scale-125 transition-transform" size={36} />
                         </div>
                       </motion.div>
                     ))}
@@ -296,7 +338,7 @@ export default function App() {
                           <div>
                             <p className="text-[10px] uppercase tracking-widest font-bold text-white/50">Réservations</p>
                             <p className="text-lg font-bold">+227 88 62 73 79</p>
-                            <p className="text-sm font-medium text-white/60 mt-1">Autres : 98 42 41 40 | 97 56 40 77 | 96 34 79 76</p>
+                            <p className="text-sm font-medium text-white/60 mt-1">Autres : 98 42 41 40 | 88 62 73 79 | 96 34 79 76</p>
                           </div>
                         </div>
                         <div className="flex items-center gap-6">

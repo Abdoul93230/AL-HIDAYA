@@ -29,7 +29,7 @@ const posts: BlogPost[] = [
         <h3 className="text-2xl font-bold text-brand-emerald">1. La Purification de l'Intention (An-Niyyah)</h3>
         <p>Assurez-vous que votre seule motivation est de plaire à Allah (SWT). Éloignez toute pensée d'ostentation ou de prestige social lié au titre de 'Hadj'.</p>
         <h3 className="text-2xl font-bold text-brand-emerald">2. L'Apprentissage des Rites</h3>
-        <p>Apprenez les étapes du Hadj : de l'Ihram à Tawaf, en passant par Arafat et Mina. AL-HIDAYA organise des séminaires de formation gratuits pour tous ses inscrits.</p>
+        <p>Apprenez les étapes du Hadj : de l'Ihram à Tawaf, en passant par Arafat et Mina. AL-HIDAYA organise des séances de formation dés l'inscription chaque samedi et dimanche pour tous ses inscrits et non inscrits.</p>
         <blockquote className="border-l-4 border-brand-gold pl-6 py-2 italic text-gray-700 bg-brand-gold/5">
           "Le Hadj est l'école de la patience et de l'humilité. Préparez votre esprit à accepter les défis avec sérénité."
         </blockquote>

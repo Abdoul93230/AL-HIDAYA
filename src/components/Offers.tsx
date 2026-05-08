@@ -145,9 +145,9 @@ export default function OffersSection() {
       price: "1 100 000",
       image: "https://images.unsplash.com/photo-1565552134634-2f7555732dad?q=80&w=1200&auto=format",
       features: [
-        "Visa inclus",
-        "Hébergement proche du Haram",
-        "Transport aérien et terrestre",
+        "Transport, hébergement & visa",
+        "Accompagnement personnalisé",
+        "Encadrement spirituel",
       ],
       fullDetails: "Du 23 décembre 2025 au 4 janvier 2026. Célébrez la fin d'année dans la sérénité des lieux saints avec encadrement personnalisé et kit pèlerin offert."
     },
@@ -158,11 +158,11 @@ export default function OffersSection() {
       image: "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=1200&auto=format",
       isPopular: true,
       features: [
-        "Visa inclus",
-        "Hébergement 4 à 5 étoiles",
-        "Transport climatisé et repas (Iftar/Suhoor)",
+        "Transport, hébergement & visa",
+        "Départ au début du Ramadan",
+        "Encadrement spirituel",
       ],
-      fullDetails: "Du 16 février au 23 mars 2026. Vivez le mois de Ramadan complet à La Mecque et Médine avec encadrement H24 et dernière décade incluse."
+      fullDetails: "Formule Ramadan 1 900 000 FCFA : départ au début du Ramadan à La Mecque. Les pèlerins débutent le Ramadan à La Mecque avec transport, hébergement et visa inclus, ainsi qu'un encadrement spirituel complet."
     }
   ];
 
@@ -172,13 +172,13 @@ export default function OffersSection() {
       type: "Oumra",
       price: "1 100 000",
       badge: "Acompte 150 000 FCFA",
-      image: "https://images.unsplash.com/photo-1542314831-068cd1dbfeeb?q=80&w=1200&auto=format",
+      image: "/672672775_939493652208910_2045622064777589843_n.jpg",
       features: [
-        "Visa inclus",
-        "Hébergement climatisé",
-        "Transport aérien et terrestre",
+        "Transport, hébergement & visa",
+        "Séances de formation chaque samedi et dimanche",
+        "Accompagnement dédié",
       ],
-      fullDetails: "Du 5 au 20 août 2026. Voyage de 15 jours pour vivre une expérience spirituelle complète avec encadrement dédié et kit pèlerin offert."
+      fullDetails: "Du 5 au 20 août 2026. Voyage de 15 jours avec séances de formation chaque samedi et dimanche, transport, hébergement et visa inclus, ainsi qu'un encadrement dédié."
     },
     {
       title: "Oumra Décembre 2026",
@@ -187,25 +187,24 @@ export default function OffersSection() {
       badge: "Acompte 150 000 FCFA",
       image: "https://images.unsplash.com/photo-1564769625905-50e93615e769?q=80&w=1200&auto=format",
       features: [
-        "Visa inclus",
-        "Hébergement confortable",
-        "Transport climatisé inclus",
+        "Transport, hébergement & visa",
+        "Séjour organisé avec soin",
+        "Accompagnement dédié",
       ],
       fullDetails: "Du 23 décembre 2026 au 2 janvier 2027. Planifiez votre fin d'année pour débuter 2027 dans la paix et la sérénité."
     },
     {
       title: "Oumra Ramadan 2026",
       type: "Oumra",
-      price: "1 800 000",
+      price: "Voir détails",
       badge: "2 formules",
       image: "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=1200&auto=format",
       features: [
-        "Visa inclus",
-        "Formule 1 mois : 1 900 000 FCFA",
-        "Formule 3 semaines : 1 800 000 FCFA",
-        "Transport aérien et terrestre",
+        "Transport, hébergement & visa",
+        "Formule 1 900 000 FCFA : début du Ramadan",
+        "Formule 1 800 000 FCFA : à partir du 15e jour",
       ],
-      fullDetails: "Ramadan 2026 réunit deux formules dans une seule offre: 1 mois à 1 900 000 FCFA ou 3 semaines à 1 800 000 FCFA. Chaque formule inclut le visa, l'hébergement et le transport aérien et terrestre avec encadrement dédié."
+      fullDetails: "Oumra Ramadan 2026 réunit deux formules : Formule 1 900 000 FCFA (départ au début du Ramadan à La Mecque, les pèlerins débutent le Ramadan à La Mecque) et Formule 1 800 000 FCFA (à partir du 15e jour du Ramadan à La Mecque). Chaque formule inclut transport, hébergement et visa, ainsi qu'un encadrement spirituel complet."
     },
     {
       title: "Hadj 2027",
@@ -214,11 +213,11 @@ export default function OffersSection() {
       image: "https://images.unsplash.com/photo-1519817650390-64a93db51149?q=80&w=1200&auto=format",
       isPopular: true,
       features: [
-        "Visa inclus",
-        "Hébergement près du Haram",
-        "Transport nouvelle génération",
+        "Transport, hébergement & visa",
+        "Encadrement religieux",
+        "Accompagnement médical",
       ],
-      fullDetails: "Dates selon le calendrier officiel. Pèlerinage complet avec encadrement médical et religieux, kit AL-HIDAYA fourni. Acompte 150 000 FCFA pour valider."
+      fullDetails: "Dates selon le calendrier officiel. Pèlerinage complet avec transport, hébergement et visa inclus, ainsi qu'un encadrement médical et religieux. Acompte 150 000 FCFA pour valider."
     }
   ];
 
@@ -350,7 +349,7 @@ export default function OffersSection() {
               </div>
             </div>
             <motion.a
-              href="https://wa.me/22797564077"
+                href="https://wa.me/22788627379"
               whileHover={{ scale: 1.05 }}
               className="px-8 py-4 bg-brand-gold text-brand-emerald font-black rounded-full uppercase tracking-widest text-xs shadow-xl"
             >
@@ -421,7 +420,7 @@ export default function OffersSection() {
                       {selectedOffer.price} <span className="text-xs uppercase opacity-40">FCFA</span>
                    </div>
                    <motion.a
-                     href={`https://wa.me/22797564077?text=Bonjour, je souhaite réserver l'offre ${selectedOffer.title}`}
+                     href={`https://wa.me/22788627379?text=Bonjour, je souhaite réserver l'offre ${selectedOffer.title}`}
                      target="_blank"
                      rel="noopener noreferrer"
                      whileHover={{ scale: 1.05 }}

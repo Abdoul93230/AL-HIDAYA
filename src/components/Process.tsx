@@ -13,7 +13,7 @@ export default function Process() {
     {
       icon: <Map size={28} />,
       title: "Préparation",
-      desc: "Formation aux rites et formalités administratives.",
+      desc: "Séances de formation dès l'inscription chaque samedi et dimanche.",
       color: "bg-brand-gold"
     },
     {

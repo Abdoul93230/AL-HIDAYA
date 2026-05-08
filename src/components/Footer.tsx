@@ -62,7 +62,7 @@ export default function Footer() {
               <div className="flex flex-col gap-1">
                 <span>+227 98 42 41 40</span>
                 <span>+227 88 62 73 79</span>
-                <span>+227 97 56 40 77</span>
+                <span>+227 88 62 73 79</span>
                 <span>+227 96 34 79 76</span>
               </div>
             </li>

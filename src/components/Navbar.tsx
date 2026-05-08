@@ -7,9 +7,10 @@ type NavPage = 'home' | 'blog';
 
 interface NavbarProps {
   onNavigate?: (page: NavPage) => void;
+  currentPage?: NavPage;
 }
 
-export default function Navbar({ onNavigate }: NavbarProps) {
+export default function Navbar({ onNavigate, currentPage = 'home' }: NavbarProps) {
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -51,7 +52,7 @@ export default function Navbar({ onNavigate }: NavbarProps) {
     <nav
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out px-6 py-4',
-        isScrolled ? 'bg-brand-emerald/90 backdrop-blur-md py-3 shadow-lg' : 'bg-transparent'
+        currentPage === 'blog' ? 'bg-brand-emerald/95 backdrop-blur-md shadow-lg' : isScrolled ? 'bg-brand-emerald/90 backdrop-blur-md py-3 shadow-lg' : 'bg-transparent'
       )}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
@@ -90,7 +91,7 @@ export default function Navbar({ onNavigate }: NavbarProps) {
             </motion.a>
           ))}
           <motion.a
-            href="tel:+22797564077"
+            href="tel:+22788627379"
             initial={{ opacity: 0, scale: 0.9 }}
             animate={{ opacity: 1, scale: 1 }}
             className="flex items-center gap-2 bg-brand-gold text-brand-emerald px-6 py-2 rounded-full font-bold text-sm shadow-md transition-all hover:-translate-y-1 active:scale-95"
@@ -145,11 +146,11 @@ export default function Navbar({ onNavigate }: NavbarProps) {
               ))}
               <div className="h-px w-full bg-white/10 my-2" />
               <a
-                href="tel:+22797564077"
+                href="tel:+22788627379"
                 className="flex items-center justify-center gap-3 bg-brand-gold text-brand-emerald p-5 rounded-2xl font-black text-sm uppercase tracking-widest shadow-xl"
               >
                 <Phone size={18} />
-                <span>+227 97 56 40 77</span>
+                <span>+227 88 62 73 79</span>
               </a>
             </div>
           </motion.div>
