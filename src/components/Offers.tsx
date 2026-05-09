@@ -115,7 +115,7 @@ export function OfferCard({ title, type, price, features, image, isPopular, badg
             isPopular ? "bg-brand-emerald text-white" : "border-2 border-brand-emerald text-brand-emerald hover:bg-brand-emerald hover:text-white"
           )}
         >
-          {isPopular ? "S'inscrire Maintenant" : "Voir les Détails"}
+          {isPopular ? "Voir les Détails" : "Voir les Détails"}
         </motion.button>
       </div>
     </motion.div>

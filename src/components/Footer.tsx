@@ -7,11 +7,12 @@ export default function Footer() {
     <footer className="bg-[#101820] text-white pt-20 pb-10">
       <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-12 border-b border-white/10 pb-16 mb-10">
         <div className="col-span-1 md:col-span-1">
-          <div className="flex items-center gap-2 mb-6">
-            <div className="w-10 h-10 bg-brand-gold rounded-full flex items-center justify-center shadow-lg">
-              <span className="text-brand-emerald font-bold text-xl font-serif">H</span>
-            </div>
-            <span className="text-2xl font-serif font-bold tracking-tight">AL-HIDAYA</span>
+          <div className="flex items-center mb-6">
+            <img
+              src={encodeURI('/Agence de Voyage AL - HIDAYA  HADJ & OUMRA.png')}
+              alt="AL-HIDAYA"
+              className="h-16 w-auto max-w-[240px] object-contain"
+            />
           </div>
           <p className="text-white/60 mb-8 leading-relaxed">
             Votre agence de référence pour le Hadj et l'Oumra. Excellence, piété et accompagnement personnalisé pour votre voyage sacré.

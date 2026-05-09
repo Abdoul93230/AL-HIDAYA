@@ -28,7 +28,7 @@ export default function WhyUs() {
     {
       icon: <Hotel size={32} />,
       title: "Hébergements bien situés",
-      desc: "Des chambres spacieuses, bien aménagées et avec un accès facilité au Haram.",
+      desc: "Des chambres spacieuses, bien aménagées",
       size: "small",
       color: "bg-brand-gold text-brand-emerald"
     },

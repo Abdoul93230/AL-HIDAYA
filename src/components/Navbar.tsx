@@ -62,9 +62,11 @@ export default function Navbar({ onNavigate, currentPage = 'home' }: NavbarProps
           className="flex items-center gap-2 cursor-pointer"
           onClick={() => handlePageNavigate('home')}
         >
-          <span className="text-xl md:text-2xl font-extrabold tracking-widest text-white">
-            AL-HIDAYA
-          </span>
+          <img
+            src={encodeURI('/Agence de Voyage AL - HIDAYA  HADJ & OUMRA.png')}
+            alt="AL-HIDAYA"
+            className="h-20 w-auto max-w-[320px] object-contain md:h-24"
+          />
         </motion.div>
 
         {/* Desktop Nav */}
