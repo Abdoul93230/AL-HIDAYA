@@ -170,7 +170,7 @@ export default function WhyUs() {
             <div className="flex gap-12 md:gap-24 animate-marquee whitespace-nowrap py-4">
               {[
                 "OFFICE DU HADJ NIGER", "COHO", "MINISTÈRE DE L'ÉLEVAGE", "MINISTÈRE DE L'INTÉRIEUR",
-                "HILTON MECCA", "PULLMAN ZAMZAM", "AIRE ETHIOPIAN", "SAUDI AIRLINES", "SAUDI VISION 2030", "INSTITUTIONS PUBLIQUES PARTENAIRES"
+                "HILTON MECCA", "PULLMAN ZAMZAM", "ETHIOPIAN AIRLINES", "SAUDI AIRLINES", "SAUDI VISION 2030", "INSTITUTIONS PUBLIQUES PARTENAIRES"
               ].map((partner, i) => (
                 <div key={i} className="flex items-center gap-3 text-brand-emerald/20 font-display font-black text-2xl md:text-3xl uppercase tracking-tighter">
                   <div className="w-2 h-2 rounded-full bg-brand-gold/30" />
@@ -180,7 +180,7 @@ export default function WhyUs() {
               {/* Duplicate for infinite loop */}
               {[
                 "OFFICE DU HADJ NIGER", "COHO", "MINISTÈRE DE L'ÉLEVAGE",
-                "HILTON MECCA", "AIRE ETHIOPIAN", "SAUDI VISION 2030", "INSTITUTIONS PUBLIQUES PARTENAIRES"
+                "HILTON MECCA", "ETHIOPIAN AIRLINES", "SAUDI VISION 2030", "INSTITUTIONS PUBLIQUES PARTENAIRES"
               ].map((partner, i) => (
                 <div key={i + 10} className="flex items-center gap-3 text-brand-emerald/20 font-display font-black text-2xl md:text-3xl uppercase tracking-tighter">
                   <div className="w-2 h-2 rounded-full bg-brand-gold/30" />
