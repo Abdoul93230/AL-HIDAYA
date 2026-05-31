@@ -1,48 +1,40 @@
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
-import { ChevronRight, HelpCircle, ShieldCheck, Wallet, Calendar, Users, Plane, MousePointer2, FileText } from 'lucide-react';
+import { ChevronRight, HelpCircle, Wallet, Calendar, Users, Plane, MousePointer2, FileText } from 'lucide-react';
 import { cn } from '../lib/utils';
 
 export default function Faq() {
   const [activeIndex, setActiveIndex] = useState(0);
-  const currentYear = new Date().getFullYear();
-  const nextYear = currentYear + 1;
 
   const faqs = [
     {
       icon: <FileText className="w-6 h-6" />,
-      q: "Quels documents dois-je fournir ?",
-      a: "Seul le passeport original est requis : valide au moins 6 mois après la date de retour. Nous nous chargeons de toutes les démarches administratives pour l'obtention du visa saoudien, y compris la collecte des documents nécessaires et la soumission auprès des autorités compétentes.",
+      q: "Quel document faut-il fournir pour les démarches de voyage ?",
+      a: "Le passeport original est requis. Il doit être valide au moins 6 mois après la date de retour. Il sert aux démarches administratives du voyage, notamment le visa et les réservations. Si vous n'avez pas encore de passeport ou qu'il n'est plus valide, l'agence Al-Hidaya peut vous accompagner dans les démarches d'obtention ou de renouvellement.",
       category: "Documents"
     },
     {
       icon: <Calendar className="w-6 h-6" />,
-      q: `Quelles sont les dates exactes pour le Hadj ${nextYear} ?`,
-      a: `Les dates définitives sont fixées par le calendrier lunaire saoudien. Nous prévoyons un départ vers début mai ${nextYear} pour un retour fin mai/début juin. Un calendrier précis vous sera remis dès l'ouverture officielle des visas.`,
+      q: "Comment sont définies les dates du Hajj ?",
+      a: "Les dates du Hajj sont fixées selon le calendrier lunaire saoudien et peuvent légèrement évoluer après l'observation du croissant lunaire. Lors de l'inscription, Al-Hidaya communique une période prévisionnelle de départ et de retour. Les dates définitives sont confirmées dès validation officielle par les autorités saoudiennes et les compagnies aériennes.",
       category: "Logistique"
-    },
-    {
-      icon: <ShieldCheck className="w-6 h-6" />,
-      q: "Quelles sont les garanties de réservation ?",
-      a: "Votre réservation est protégée par un contrat légal d'agrément. Nous sécurisons vos places de vols et vos hébergements immédiatement après le premier versement, vous garantissant aucun changement de tarif.",
-      category: "Confiance"
     },
     {
       icon: <Plane className="w-6 h-6" />,
       q: "Le visa est-il inclus dans le prix ?",
-      a: "Oui, tous nos forfaits incluent les frais de visa, l'assurance médicale obligatoire saoudienne ainsi que l'accompagnement administratif complet au Niger. Pas de frais cachés.",
+      a: "Oui. Le prix annoncé inclut le visa, le billet d'avion et l'hébergement.",
       category: "Logistique"
     },
     {
       icon: <Users className="w-6 h-6" />,
-      q: "Quel type d'accompagnement religieux ?",
-      a: "Chaque groupe est placé sous la supervision d'un encadrant religieux expérimenté. Des séances de formation dés l'inscription chaque samedi et dimanche sont organisées pour que chaque rite soit accompli avec science et sérénité.",
+      q: "Quel accompagnement religieux est prévu ?",
+      a: "Chaque groupe est encadré par des guides religieux expérimentés. Des séances de formation sont organisées chaque samedi et dimanche dès l'inscription, afin de permettre aux pèlerins d'accomplir leurs rites avec compréhension, sérénité et confiance.",
       category: "Spiritualité"
     },
     {
       icon: <Wallet className="w-6 h-6" />,
       q: "Puis-je payer en plusieurs fois ?",
-      a: "Absolument. Nous proposons des facilités de paiement échelonnées jusqu'au départ. Un premier acompte valide votre dossier, puis nous établissons ensemble un plan de versement flexible et transparent.",
+      a: "Oui. Un premier acompte permet de valider l'inscription, puis le reste peut être versé progressivement jusqu'au départ, selon vos possibilités. Le paiement doit toutefois être entièrement réglé avant le voyage.",
       category: "Paiement"
     }
   ];
