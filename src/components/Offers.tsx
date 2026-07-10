@@ -63,7 +63,7 @@ export function OfferCard({ title, type, price, features, image, isPopular, badg
     >
       {isPopular && (
         <div className="absolute top-6 left-6 z-20 px-4 py-2 bg-brand-gold text-brand-emerald text-[9px] md:text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg animate-pulse whitespace-nowrap">
-          Places Limitées (12)
+          Limite : 26 sep 2026
         </div>
       )}
       {badge && (
@@ -124,7 +124,7 @@ export function OfferCard({ title, type, price, features, image, isPopular, badg
 
 export default function OffersSection() {
   const [selectedOffer, setSelectedOffer] = useState<Offer | null>(null);
-  const [activeSeason, setActiveSeason] = useState<'2025-2026' | '2026-2027'>('2026-2027');
+  const activeSeason = '2026-2027' as const;
   const carouselRef = useRef<HTMLDivElement | null>(null);
 
   const scrollCarousel = (direction: 'left' | 'right') => {
@@ -138,40 +138,12 @@ export default function OffersSection() {
     });
   };
 
-  const offers2526: Offer[] = [
-    {
-      title: "Oumra Décembre 2025",
-      type: "Oumra",
-      price: "1 100 000",
-      image: "https://images.unsplash.com/photo-1565552134634-2f7555732dad?q=80&w=1200&auto=format",
-      features: [
-        "Transport, hébergement & visa",
-        "Accompagnement personnalisé",
-        "Encadrement spirituel",
-      ],
-      fullDetails: "Du 23 décembre 2025 au 4 janvier 2026. Célébrez la fin d'année dans la sérénité des lieux saints avec encadrement personnalisé et kit pèlerin offert."
-    },
-    {
-      title: "Oumra Ramadan 2026 (1er groupe)",
-      type: "Oumra",
-      price: "1 900 000",
-      image: "https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?q=80&w=1200&auto=format",
-      isPopular: true,
-      features: [
-        "Transport, hébergement & visa",
-        "Départ au début du Ramadan",
-        "Encadrement spirituel",
-      ],
-      fullDetails: "Formule Ramadan 1 900 000 FCFA : départ au début du Ramadan à La Mecque. Les pèlerins débutent le Ramadan à La Mecque avec transport, hébergement et visa inclus, ainsi qu'un encadrement spirituel complet."
-    }
-  ];
-
   const offers2627: Offer[] = [
     {
       title: "Oumra Août 2026",
       type: "Oumra",
-      price: "1 100 000",
-      badge: "Acompte 150 000 FCFA",
+      price: "1 250 000",
+      badge: "SOLDOUT",
       image: "/672672775_939493652208910_2045622064777589843_n.jpg",
       features: [
         "Transport, hébergement & visa",
@@ -183,7 +155,7 @@ export default function OffersSection() {
     {
       title: "Oumra Décembre 2026",
       type: "Oumra",
-      price: "1 200 000",
+      price: "1 250 000",
       badge: "Acompte 150 000 FCFA",
       image: "https://images.unsplash.com/photo-1564769625905-50e93615e769?q=80&w=1200&auto=format",
       features: [
@@ -217,11 +189,11 @@ export default function OffersSection() {
         "Encadrement religieux",
         "Accompagnement médical",
       ],
-      fullDetails: "Dates selon le calendrier officiel. Pèlerinage complet avec transport, hébergement et visa inclus, ainsi qu'un encadrement médical et religieux. Acompte 150 000 FCFA pour valider."
+      fullDetails: "Dates selon le calendrier officiel. Pèlerinage complet avec transport, hébergement et visa inclus, ainsi qu'un encadrement médical et religieux. Acompte 150 000 FCFA pour valider. Délai d'inscription : 26 septembre 2026."
     }
   ];
 
-  const currentOffers = activeSeason === '2025-2026' ? offers2526 : offers2627;
+  const currentOffers = offers2627;
   const firstHadjIndex = currentOffers.findIndex((offer) => offer.type === 'Hadj');
   const firstOumraIndex = currentOffers.findIndex((offer) => offer.type === 'Oumra');
 
@@ -261,30 +233,6 @@ export default function OffersSection() {
             className="w-16 md:w-24 h-1.5 bg-brand-gold mx-auto mt-5 rounded-full shadow-sm"
           />
 
-          <div className="flex flex-col sm:flex-row justify-center gap-2.5 sm:gap-3 mt-6 md:mt-7">
-            <button
-              onClick={() => setActiveSeason('2025-2026')}
-              className={cn(
-                "px-5 md:px-7 py-2.5 rounded-full font-black text-[10px] md:text-xs uppercase tracking-wider transition-all",
-                activeSeason === '2025-2026'
-                  ? "bg-brand-emerald text-white shadow-lg"
-                  : "bg-white text-brand-emerald border-2 border-brand-emerald/10 hover:border-brand-emerald"
-              )}
-            >
-              Saison 2025 - 2026
-            </button>
-            <button
-              onClick={() => setActiveSeason('2026-2027')}
-              className={cn(
-                "px-5 md:px-7 py-2.5 rounded-full font-black text-[10px] md:text-xs uppercase tracking-wider transition-all",
-                activeSeason === '2026-2027'
-                  ? "bg-brand-emerald text-white shadow-lg"
-                  : "bg-white text-brand-emerald border-2 border-brand-emerald/10 hover:border-brand-emerald"
-              )}
-            >
-              Saison 2026 - 2027
-            </button>
-          </div>
         </div>
 
         <div className="relative">

@@ -7,7 +7,7 @@ export default function Process() {
     {
       icon: <ClipboardCheck size={28} />,
       title: "Inscription",
-      desc: "Étude de votre dossier et réservation des vols.",
+      desc: "Étude et validation de votre dossier d'inscription.",
       color: "bg-blue-500"
     },
     {

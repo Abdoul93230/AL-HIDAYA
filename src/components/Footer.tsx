@@ -61,15 +61,14 @@ export default function Footer() {
             <li className="flex items-start gap-3">
               <Phone size={18} className="text-brand-gold shrink-0 mt-1" />
               <div className="flex flex-col gap-1">
+                <span>+227 88 62 73 79</span>
                 <span>+227 98 42 41 40</span>
-                <span>+227 88 62 73 79</span>
-                <span>+227 88 62 73 79</span>
                 <span>+227 96 34 79 76</span>
               </div>
             </li>
             <li className="flex items-center gap-3">
               <Mail size={18} className="text-brand-gold shrink-0" />
-              <span>contact@alhidaya.ne</span>
+              <span>contact@alhydayahadj.com</span>
             </li>
           </ul>
         </div>

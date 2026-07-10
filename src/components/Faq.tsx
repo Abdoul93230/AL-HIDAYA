@@ -113,24 +113,12 @@ export default function Faq() {
                             {faq.a}
                           </p>
                           
-                          <div className="flex items-center gap-4 mb-6">
-                            <div className="flex -space-x-3">
-                              {[1, 2, 3].map(item => (
-                                <div key={item} className="w-8 h-8 rounded-full border-2 border-white overflow-hidden bg-brand-sand">
-                                  <img src={`https://picsum.photos/seed/${item + 10}/100/100`} alt="user" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                                </div>
-                              ))}
-                            </div>
-                            <p className="text-[10px] font-bold text-gray-400">
-                              +150 pèlerins ont déjà consulté cette réponse.
-                            </p>
-                          </div>
-
                           <div className="flex flex-col gap-3">
                             <a href="#contact" className="w-full py-3 bg-brand-emerald text-white rounded-full text-center text-[11px] font-black uppercase tracking-widest">
                               Besoin d'aide ?
                             </a>
                           </div>
+
                         </div>
                       </motion.div>
                     )}
@@ -175,31 +163,16 @@ export default function Faq() {
                     
                     <div className="h-px w-full bg-gradient-to-r from-brand-gold/30 via-brand-gold/5 to-transparent my-8" />
                     
-                    <div className="flex items-center gap-6">
-                      <div className="flex -space-x-4">
-                        {[1, 2, 3].map(i => (
-                          <div key={i} className="w-12 h-12 rounded-full border-4 border-white overflow-hidden bg-brand-sand">
-                            <img src={`https://picsum.photos/seed/${i + 10}/100/100`} alt="user" className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-                          </div>
-                        ))}
-                      </div>
-                      <p className="text-xs font-bold text-gray-400 max-w-[150px]">
-                        +150 pèlerins ont déjà posé cette question.
-                      </p>
-                    </div>
                   </div>
                 </div>
 
-                <div className="mt-12 flex flex-col sm:flex-row gap-4">
-                  <a 
-                    href="#contact" 
-                    className="flex-1 flex items-center justify-center gap-2 py-4 bg-brand-emerald text-white rounded-full font-bold text-xs md:text-sm uppercase tracking-widest hover:scale-[1.02] transition-transform whitespace-nowrap"
+                <div className="mt-12">
+                  <a
+                    href="#contact"
+                    className="flex items-center justify-center gap-2 py-4 bg-brand-emerald text-white rounded-full font-bold text-xs md:text-sm uppercase tracking-widest hover:scale-[1.02] transition-transform whitespace-nowrap"
                   >
                     Besoin de plus d'infos ?
                   </a>
-                  <button className="flex-1 flex items-center justify-center gap-2 py-4 border border-brand-gold/20 text-brand-gold rounded-full font-bold text-xs md:text-sm uppercase tracking-widest hover:bg-brand-gold/5 transition-colors whitespace-nowrap">
-                    Télécharger le guide
-                  </button>
                 </div>
               </motion.div>
             </AnimatePresence>

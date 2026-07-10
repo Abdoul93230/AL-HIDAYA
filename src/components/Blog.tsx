@@ -1,7 +1,7 @@
-import React, { useState } from 'react';
+import React, { useRef, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Calendar, User, ArrowRight, Share2, MessageCircle, ArrowLeft } from 'lucide-react';
-import { cn } from '../lib/utils';
 
 interface BlogPost {
   id: number;
@@ -29,18 +29,18 @@ const posts: BlogPost[] = [
         <h3 className="text-2xl font-bold text-brand-emerald">1. La Purification de l'Intention (An-Niyyah)</h3>
         <p>Assurez-vous que votre seule motivation est de plaire à Allah (SWT). Éloignez toute pensée d'ostentation ou de prestige social lié au titre de 'Hadj'.</p>
         <h3 className="text-2xl font-bold text-brand-emerald">2. L'Apprentissage des Rites</h3>
-        <p>Apprenez les étapes du Hadj : de l'Ihram à Tawaf, en passant par Arafat et Mina. AL-HIDAYA organise des séances de formation dés l'inscription chaque samedi et dimanche pour tous ses inscrits et non inscrits.</p>
+        <p>Apprenez les étapes du Hadj : de l'Ihram à Tawaf, en passant par Arafat et Mina. AL-HIDAYA organise des séances de formation dès l'inscription chaque samedi et dimanche pour tous ses inscrits et non inscrits.</p>
         <blockquote className="border-l-4 border-brand-gold pl-6 py-2 italic text-gray-700 bg-brand-gold/5">
           "Le Hadj est l'école de la patience et de l'humilité. Préparez votre esprit à accepter les défis avec sérénité."
         </blockquote>
         <p>Enfin, n'oubliez pas de régler toutes vos dettes et de demander pardon à votre entourage avant votre départ.</p>
       </div>
-    )
+    ),
   },
   {
     id: 2,
     title: "La Tontine Oumrah : Épargnez à votre rythme avec AmanaTa",
-    excerpt: "Pourquoi choisir le paiement progressif ? Notre nouveau partenariat avec AmanaTa facilite l'accès aux lieux saints pour tous.",
+    excerpt: "Pourquoi choisir le paiement progressif ? Notre partenariat avec AmanaTa facilite l'accès aux lieux saints pour tous.",
     category: "Conseils",
     date: "12 Octobre 2025",
     image: "/tontine.jpg",
@@ -57,7 +57,7 @@ const posts: BlogPost[] = [
         </ul>
         <p>Pour le départ d'août 2026, commencez dès aujourd'hui votre épargne pour voyager l'esprit léger et sans dettes.</p>
       </div>
-    )
+    ),
   },
   {
     id: 3,
@@ -76,21 +76,29 @@ const posts: BlogPost[] = [
         <p>Grâce à nos partenariats locaux, nous vous garantissons des transferts fluides depuis l'aéroport de Niamey et des hôtels situés à moins de 200m du Haram, même en période de forte affluence.</p>
         <p>C'est l'occasion idéale pour les familles de voyager ensemble durant les congés, dans un cadre sécurisé et spirituellement enrichissant.</p>
       </div>
-    )
-  }
+    ),
+  },
 ];
 
-export default function Blog({ onBack }: { onBack: () => void }) {
+export default function Blog() {
+  const navigate = useNavigate();
   const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
+  const topRef = useRef<HTMLDivElement>(null);
 
-  const selectedPost = posts.find(p => p.id === selectedPostId);
+  const selectedPost = posts.find((p) => p.id === selectedPostId);
 
-  const scrollToTop = () => {
-    window.scrollTo({ top: 0, left: 0, behavior: 'auto' });
+  const openPost = (id: number) => {
+    setSelectedPostId(id);
+    topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  };
+
+  const closePost = () => {
+    setSelectedPostId(null);
+    topRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
   };
 
   return (
-    <div className="bg-brand-sand min-h-screen pb-20 pt-32">
+    <div ref={topRef} className="bg-brand-sand min-h-screen pb-20 pt-32">
       <div className="max-w-7xl mx-auto px-6">
         <AnimatePresence mode="wait">
           {!selectedPostId ? (
@@ -102,30 +110,26 @@ export default function Blog({ onBack }: { onBack: () => void }) {
             >
               <div className="flex flex-col md:flex-row md:items-end justify-between mb-16 gap-8">
                 <div className="max-w-2xl">
-                  <motion.div
-                     initial={{ opacity: 0, x: -20 }}
-                     animate={{ opacity: 1, x: 0 }}
-                     className="flex items-center gap-3 mb-6"
+                  <motion.button
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    onClick={() => navigate('/')}
+                    className="flex items-center gap-2 text-brand-gold font-black uppercase tracking-widest text-[10px] mb-6 hover:gap-4 transition-all"
                   >
-                     <button 
-                       onClick={onBack}
-                       className="text-brand-gold font-black uppercase tracking-widest text-[10px] hover:underline"
-                     >
-                       ← Retour à l'accueil
-                     </button>
-                  </motion.div>
-                  <motion.h1 
+                    <ArrowLeft size={14} /> Retour à l'accueil
+                  </motion.button>
+                  <motion.h1
                     initial={{ opacity: 0, y: 20 }}
                     animate={{ opacity: 1, y: 0 }}
                     className="text-5xl md:text-7xl font-serif font-light text-brand-emerald leading-[0.9] tracking-tighter"
                   >
                     L'Écho <span className="text-brand-gold italic">d'Al-Hidaya</span>
                   </motion.h1>
-                  <motion.p 
-                     initial={{ opacity: 0, y: 20 }}
-                     animate={{ opacity: 1, y: 0 }}
-                     transition={{ delay: 0.1 }}
-                     className="text-gray-500 mt-6 text-lg font-medium"
+                  <motion.p
+                    initial={{ opacity: 0, y: 20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ delay: 0.1 }}
+                    className="text-gray-500 mt-6 text-lg font-medium"
                   >
                     Actualités, conseils spirituels et guides pratiques pour votre pèlerinage.
                   </motion.p>
@@ -139,12 +143,13 @@ export default function Blog({ onBack }: { onBack: () => void }) {
                     initial={{ opacity: 0, y: 30 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ delay: i * 0.1 }}
-                    className="group bg-white rounded-[40px] overflow-hidden shadow-sleek border border-white hover:border-brand-gold/20 transition-all flex flex-col"
+                    onClick={() => openPost(post.id)}
+                    className="group bg-white rounded-[40px] overflow-hidden shadow-sleek border border-white hover:border-brand-gold/20 transition-all flex flex-col cursor-pointer"
                   >
                     <div className="relative h-64 overflow-hidden">
-                      <img 
-                        src={post.image} 
-                        alt={post.title} 
+                      <img
+                        src={post.image}
+                        alt={post.title}
                         className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-110"
                       />
                       <div className="absolute top-6 left-6 px-4 py-2 bg-brand-emerald text-white text-[10px] font-black uppercase tracking-widest rounded-full shadow-lg">
@@ -157,29 +162,20 @@ export default function Blog({ onBack }: { onBack: () => void }) {
                         <span className="flex items-center gap-1.5"><Calendar size={12} /> {post.date}</span>
                         <span className="flex items-center gap-1.5"><User size={12} /> {post.author}</span>
                       </div>
-
                       <h2 className="text-2xl font-black text-brand-emerald mb-4 leading-tight group-hover:text-brand-gold transition-colors">
                         {post.title}
                       </h2>
-                      
                       <p className="text-gray-600 text-sm leading-relaxed mb-8 flex-grow">
                         {post.excerpt}
                       </p>
-
                       <div className="pt-6 border-t border-gray-50 flex items-center justify-between">
-                         <button 
-                           onClick={() => {
-                             scrollToTop();
-                             setSelectedPostId(post.id);
-                           }}
-                           className="flex items-center gap-2 text-brand-emerald font-black uppercase tracking-widest text-[10px] group-hover:gap-4 transition-all"
-                         >
-                            Lire la suite <ArrowRight size={14} className="text-brand-gold" />
-                         </button>
-                         <div className="flex gap-4 text-gray-300">
-                            <Share2 size={16} className="hover:text-brand-gold cursor-pointer" />
-                            <MessageCircle size={16} className="hover:text-brand-gold cursor-pointer" />
-                         </div>
+                        <span className="flex items-center gap-2 text-brand-emerald font-black uppercase tracking-widest text-[10px] group-hover:gap-4 transition-all pointer-events-none">
+                          Lire la suite <ArrowRight size={14} className="text-brand-gold" />
+                        </span>
+                        <div className="flex gap-4 text-gray-300">
+                          <Share2 size={16} className="hover:text-brand-gold cursor-pointer" />
+                          <MessageCircle size={16} className="hover:text-brand-gold cursor-pointer" />
+                        </div>
                       </div>
                     </div>
                   </motion.article>
@@ -194,22 +190,15 @@ export default function Blog({ onBack }: { onBack: () => void }) {
               exit={{ opacity: 0, x: -50 }}
               className="max-w-4xl mx-auto"
             >
-              <button 
-                onClick={() => {
-                  scrollToTop();
-                  setSelectedPostId(null);
-                }}
+              <button
+                onClick={closePost}
                 className="flex items-center gap-2 text-brand-gold font-black uppercase tracking-widest text-[10px] mb-8 hover:gap-4 transition-all"
               >
                 <ArrowLeft size={16} /> Retour aux articles
               </button>
 
               <div className="relative h-[25rem] md:h-[35rem] rounded-[40px] overflow-hidden mb-12 shadow-2xl">
-                <img 
-                  src={selectedPost?.image} 
-                  alt={selectedPost?.title} 
-                  className="w-full h-full object-cover"
-                />
+                <img src={selectedPost?.image} alt={selectedPost?.title} className="w-full h-full object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-t from-brand-emerald/80 to-transparent" />
                 <div className="absolute bottom-12 left-12 right-12 text-white">
                   <div className="px-4 py-2 bg-brand-gold text-brand-emerald inline-block text-[10px] font-black uppercase tracking-[0.3em] rounded-full mb-6">
@@ -239,20 +228,12 @@ export default function Blog({ onBack }: { onBack: () => void }) {
                       <div className="w-10 h-10 rounded-full bg-brand-sand flex items-center justify-center text-brand-emerald hover:bg-brand-gold hover:text-white cursor-pointer transition-all"><MessageCircle size={18} /></div>
                     </div>
                   </div>
-
-                  <a 
-                    href="#contact"
-                    onClick={() => {
-                        setSelectedPostId(null);
-                        onBack();
-                        setTimeout(() => {
-                            document.getElementById('contact')?.scrollIntoView({ behavior: 'smooth' });
-                        }, 500);
-                    }}
+                  <button
+                    onClick={() => navigate('/#contact')}
                     className="px-8 py-4 bg-brand-emerald text-white rounded-full font-black uppercase tracking-widest text-xs shadow-xl hover:bg-brand-gold transition-all"
                   >
                     Une question ? Contactez-nous
-                  </a>
+                  </button>
                 </div>
               </div>
             </motion.div>

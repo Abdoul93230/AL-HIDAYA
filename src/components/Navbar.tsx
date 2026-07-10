@@ -1,50 +1,48 @@
 import { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Menu, X, Phone } from 'lucide-react';
 import { cn } from '../lib/utils';
 
-type NavPage = 'home' | 'blog';
-
-interface NavbarProps {
-  onNavigate?: (page: NavPage) => void;
-  currentPage?: NavPage;
-}
-
-export default function Navbar({ onNavigate, currentPage = 'home' }: NavbarProps) {
+export default function Navbar() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
+  const isActualites = location.pathname === '/actualites';
+
   useEffect(() => {
-    const handleScroll = () => {
-      setIsScrolled(window.scrollY > 50);
-    };
+    const handleScroll = () => setIsScrolled(window.scrollY > 50);
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
   const navLinks = [
-    // { name: 'Accueil', href: '#', type: 'page', key: 'home' as NavPage },
-    { name: 'À Propos', href: '#apropos', type: 'anchor' },
-    { name: 'Nos Offres', href: '#offres', type: 'anchor' },
-    { name: 'FAQ', href: '#FAQ', type: 'anchor' },
-    { name: 'Galerie', href: '#galerie', type: 'anchor' },
-    { name: 'Contact', href: '#contact', type: 'anchor' },
-    { name: 'Blog', href: '#blog', type: 'page', key: 'blog' as NavPage },
+    { name: 'À Propos', href: '#apropos' },
+    { name: 'Nos Offres', href: '#offres' },
+    { name: 'FAQ', href: '#FAQ' },
+    { name: 'Galerie', href: '#galerie' },
+    { name: 'Contact', href: '#contact' },
+    { name: 'Actualités', href: '/actualites' },
   ];
 
-  const handlePageNavigate = (page: NavPage) => {
-    if (onNavigate) {
-      onNavigate(page);
-    }
-
-    if (page === 'home') {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-      return;
-    }
-
-    const blogSection = document.querySelector('#blog');
-    if (blogSection) {
-      blogSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const handleClick = (e: React.MouseEvent<HTMLAnchorElement>, href: string) => {
+    if (href.startsWith('#')) {
+      e.preventDefault();
+      setMobileMenuOpen(false);
+      if (isActualites) {
+        navigate('/');
+        setTimeout(() => {
+          document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+        }, 400);
+      } else {
+        document.querySelector(href)?.scrollIntoView({ behavior: 'smooth' });
+      }
+    } else {
+      e.preventDefault();
+      setMobileMenuOpen(false);
+      navigate(href);
     }
   };
 
@@ -52,22 +50,24 @@ export default function Navbar({ onNavigate, currentPage = 'home' }: NavbarProps
     <nav
       className={cn(
         'fixed top-0 left-0 right-0 z-50 transition-all duration-500 ease-in-out px-6 py-4',
-        currentPage === 'blog' ? 'bg-brand-emerald/95 backdrop-blur-md shadow-lg' : isScrolled ? 'bg-brand-emerald/90 backdrop-blur-md py-3 shadow-lg' : 'bg-transparent'
+        isActualites || isScrolled
+          ? 'bg-brand-emerald/90 backdrop-blur-md py-3 shadow-lg'
+          : 'bg-transparent'
       )}
     >
       <div className="max-w-7xl mx-auto flex items-center justify-between">
-        <motion.div 
+        <motion.button
           initial={{ opacity: 0, x: -20 }}
           animate={{ opacity: 1, x: 0 }}
+          onClick={() => navigate('/')}
           className="flex items-center gap-2 cursor-pointer"
-          onClick={() => handlePageNavigate('home')}
         >
           <img
             src={encodeURI('/Agence de Voyage AL - HIDAYA  HADJ & OUMRA.png')}
             alt="AL-HIDAYA"
             className="h-20 w-auto max-w-[320px] object-contain md:h-24"
           />
-        </motion.div>
+        </motion.button>
 
         {/* Desktop Nav */}
         <div className="hidden md:flex items-center gap-8 lg:gap-10">
@@ -78,15 +78,12 @@ export default function Navbar({ onNavigate, currentPage = 'home' }: NavbarProps
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.1 }}
-              onClick={(e) => {
-                if (link.type === 'page' && link.key) {
-                  e.preventDefault();
-                  handlePageNavigate(link.key);
-                }
-              }}
+              onClick={(e) => handleClick(e, link.href)}
               className={cn(
-                "text-[13px] font-bold uppercase tracking-wider transition-opacity hover:opacity-100",
-                isScrolled ? "text-white opacity-80" : "text-white/80 opacity-80"
+                'text-[13px] font-bold uppercase tracking-wider transition-opacity hover:opacity-100',
+                isActualites && link.href === '/actualites'
+                  ? 'text-brand-gold opacity-100'
+                  : 'text-white opacity-80'
               )}
             >
               {link.name}
@@ -104,15 +101,8 @@ export default function Navbar({ onNavigate, currentPage = 'home' }: NavbarProps
         </div>
 
         {/* Mobile Menu Trigger */}
-        <button 
-          className="md:hidden p-2"
-          onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-        >
-          {mobileMenuOpen ? (
-            <X className={isScrolled ? "text-white" : "text-white"} />
-          ) : (
-            <Menu className={isScrolled ? "text-white" : "text-white"} />
-          )}
+        <button className="md:hidden p-2" onClick={() => setMobileMenuOpen(!mobileMenuOpen)}>
+          {mobileMenuOpen ? <X className="text-white" /> : <Menu className="text-white" />}
         </button>
       </div>
 
@@ -133,15 +123,11 @@ export default function Navbar({ onNavigate, currentPage = 'home' }: NavbarProps
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: i * 0.05 }}
-                  onClick={(e) => {
-                    setMobileMenuOpen(false);
-
-                    if (link.type === 'page' && link.key) {
-                      e.preventDefault();
-                      handlePageNavigate(link.key);
-                    }
-                  }}
-                  className="text-xl font-bold text-white/80 hover:text-brand-gold transition-colors"
+                  onClick={(e) => handleClick(e, link.href)}
+                  className={cn(
+                    'text-xl font-bold hover:text-brand-gold transition-colors',
+                    isActualites && link.href === '/actualites' ? 'text-brand-gold' : 'text-white/80'
+                  )}
                 >
                   {link.name}
                 </motion.a>
