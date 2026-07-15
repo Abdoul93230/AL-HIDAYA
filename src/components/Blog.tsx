@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { motion, AnimatePresence } from 'motion/react';
 import { Calendar, User, ArrowRight, Share2, MessageCircle, ArrowLeft } from 'lucide-react';
+import { useSanity } from '../sanity/useSanity';
+import { getArticles } from '../sanity/queries';
 
 interface BlogPost {
   id: number;
@@ -14,7 +16,7 @@ interface BlogPost {
   author: string;
 }
 
-const posts: BlogPost[] = [
+const fallbackPosts: BlogPost[] = [
   {
     id: 1,
     title: "Guide 2026 : Se préparer spirituellement pour le Hadj",
@@ -84,6 +86,21 @@ export default function Blog() {
   const navigate = useNavigate();
   const [selectedPostId, setSelectedPostId] = useState<number | null>(null);
   const topRef = useRef<HTMLDivElement>(null);
+
+  const { data: sanityArticles } = useSanity(getArticles, null);
+
+  const posts: BlogPost[] = sanityArticles
+    ? sanityArticles.map((a: any, i: number) => ({
+        id: i + 1,
+        title: a.title,
+        excerpt: a.excerpt || '',
+        content: <div className="space-y-6"><p>{a.excerpt}</p></div>,
+        category: a.category || 'Général',
+        date: a.date ? new Date(a.date).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' }) : '',
+        image: a.image || fallbackPosts[i]?.image || '',
+        author: a.author || '',
+      }))
+    : fallbackPosts;
 
   const selectedPost = posts.find((p) => p.id === selectedPostId);
 

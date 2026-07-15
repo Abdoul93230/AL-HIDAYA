@@ -2,11 +2,20 @@ import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'motion/react';
 import { ChevronRight, HelpCircle, Wallet, Calendar, Users, Plane, MousePointer2, FileText } from 'lucide-react';
 import { cn } from '../lib/utils';
+import { useSanity } from '../sanity/useSanity';
+import { getFaqs } from '../sanity/queries';
+
+const iconMap: Record<string, React.ReactNode> = {
+  Documents: <FileText className="w-6 h-6" />,
+  Logistique: <Calendar className="w-6 h-6" />,
+  Spiritualité: <Users className="w-6 h-6" />,
+  Paiement: <Wallet className="w-6 h-6" />,
+};
 
 export default function Faq() {
   const [activeIndex, setActiveIndex] = useState(0);
 
-  const faqs = [
+  const fallbackFaqs = [
     {
       icon: <FileText className="w-6 h-6" />,
       q: "Quel document faut-il fournir pour les démarches de voyage ?",
@@ -38,6 +47,17 @@ export default function Faq() {
       category: "Paiement"
     }
   ];
+
+  const { data: sanityFaqs } = useSanity(getFaqs, null);
+
+  const faqs = sanityFaqs
+    ? sanityFaqs.map((f: any) => ({
+        icon: iconMap[f.category] || <HelpCircle className="w-6 h-6" />,
+        q: f.question,
+        a: f.answer,
+        category: f.category,
+      }))
+    : fallbackFaqs;
 
   return (
     <section id="FAQ" className="py-24 md:py-32 bg-brand-sand relative overflow-hidden">

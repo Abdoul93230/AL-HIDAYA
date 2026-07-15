@@ -1,10 +1,18 @@
 import React, { useState, useEffect, useMemo } from 'react';
 import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } from 'motion/react';
 import { ChevronDown, ArrowRight, ShieldCheck } from 'lucide-react';
+import { useSanity } from '../sanity/useSanity';
+import { getHero } from '../sanity/queries';
 
 export default function Hero() {
   const [isCoarsePointer, setIsCoarsePointer] = useState(false);
   const prefersReducedMotion = useReducedMotion();
+  const { data: heroData } = useSanity(getHero, null);
+
+  const title = heroData?.title || 'AL-HIDAYA';
+  const subtitle = heroData?.subtitle || 'Le meilleur choix pour un meilleur encadrement';
+  const ctaText = heroData?.ctaText || 'Découvrir 2026';
+  const ctaLink = heroData?.ctaLink || '#offres';
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(pointer: coarse), (max-width: 900px)');
@@ -130,10 +138,10 @@ export default function Hero() {
 
           <div>
             <h1 className="text-4xl sm:text-6xl md:text-9xl font-display font-black text-white leading-[0.8] mb-4 tracking-tighter drop-shadow-2xl">
-              AL-HIDAYA
+              {title}
             </h1>
             <p className="text-sm md:text-base font-serif font-light italic text-brand-gold mb-12 drop-shadow-md max-w-2xl mx-auto">
-              Le meilleur choix pour un meilleur encadrement
+              {subtitle}
             </p>
           </div>
           
@@ -143,12 +151,12 @@ export default function Hero() {
           
           <div className="flex flex-col sm:flex-row items-center justify-center gap-8">
             <motion.a
-              href="#offres"
+              href={ctaLink}
               whileHover={{ scale: 1.05, y: -5 }}
               whileTap={{ scale: 0.95 }}
               className="w-full sm:w-auto px-12 py-5 bg-brand-gold text-brand-emerald font-black rounded-full shadow-[0_20px_50px_rgba(197,160,89,0.3)] text-xl uppercase tracking-widest transition-all"
             >
-              Découvrir 2026
+              {ctaText}
             </motion.a>
             <motion.a
               href="#contact"

@@ -1,7 +1,15 @@
 import { Facebook, Instagram, Twitter, Mail, MapPin, Phone } from 'lucide-react';
+import { useSanity } from '../sanity/useSanity';
+import { getContact } from '../sanity/queries';
 
 export default function Footer() {
   const currentYear = new Date().getFullYear();
+  const { data: contact } = useSanity(getContact, null);
+
+  const mainPhone = contact?.mainPhone || '+227 88 62 73 79';
+  const otherPhones = contact?.otherPhones || ['98 42 41 40', '96 34 79 76'];
+  const email = contact?.email || 'contact@alhydayahadj.com';
+  const address = contact?.address || 'Route Djogol Midi, Niamey, Niger';
 
   return (
     <footer className="bg-[#101820] text-white pt-20 pb-10">
@@ -56,19 +64,20 @@ export default function Footer() {
           <ul className="space-y-4 text-white/70">
             <li className="flex items-start gap-3">
               <MapPin size={18} className="text-brand-gold shrink-0 mt-1" />
-              <span>Route Djogol Midi, Niamey, Niger</span>
+              <span>{address}</span>
             </li>
             <li className="flex items-start gap-3">
               <Phone size={18} className="text-brand-gold shrink-0 mt-1" />
               <div className="flex flex-col gap-1">
-                <span>+227 88 62 73 79</span>
-                <span>+227 98 42 41 40</span>
-                <span>+227 96 34 79 76</span>
+                <span>{mainPhone}</span>
+                {otherPhones.map((p: string) => (
+                  <span key={p}>+227 {p}</span>
+                ))}
               </div>
             </li>
             <li className="flex items-center gap-3">
               <Mail size={18} className="text-brand-gold shrink-0" />
-              <span>contact@alhydayahadj.com</span>
+              <span>{email}</span>
             </li>
           </ul>
         </div>

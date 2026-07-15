@@ -1,6 +1,9 @@
+import { lazy, Suspense } from 'react';
 import { Routes, Route, useLocation } from 'react-router-dom';
 import { motion, useScroll, useSpring, AnimatePresence, MotionConfig, useReducedMotion } from 'motion/react';
 import Navbar from './components/Navbar';
+
+const Studio = lazy(() => import('./components/Studio'));
 import Hero from './components/Hero';
 import OffersSection from './components/Offers';
 import Testimonials from './components/Testimonials';
@@ -13,6 +16,8 @@ import Blog from './components/Blog';
 import { Star, MapPin, Camera, ShieldCheck, Phone, X, Mail } from 'lucide-react';
 import { cn } from './lib/utils';
 import { useEffect, useMemo, useState } from 'react';
+import { useSanity } from './sanity/useSanity';
+import { getContact, getSiteSettings, getAbout } from './sanity/queries';
 
 const gallery = {
   'Hajj & Ramadan': [
@@ -54,6 +59,24 @@ const gallery = {
 function HomePage() {
   const [selectedGalleryImg, setSelectedGalleryImg] = useState<string | null>(null);
   const [galleryCategory, setGalleryCategory] = useState<'Hajj & Ramadan' | 'Formations' | 'Activités & Autres'>('Hajj & Ramadan');
+  const { data: contact } = useSanity(getContact, null);
+  const { data: settings } = useSanity(getSiteSettings, null);
+  const { data: aboutData } = useSanity(getAbout, null);
+
+  const mainPhone = contact?.mainPhone || '+227 88 62 73 79';
+  const otherPhones = contact?.otherPhones || ['98 42 41 40', '96 34 79 76'];
+  const email = contact?.email || 'contact@alhydayahadj.com';
+  const address = contact?.address || 'Route Djogol Midi, Niamey';
+  const whatsapp = contact?.whatsapp || '22788627379';
+  const footerText = settings?.footerText || "AL-HIDAYA est agréée par le Ministère de l'Intérieur, de la Sécurité Publique et de l'Administration Territoriale du Niger. Nous respectons strictement les directives de l'Office du Hadj de l'Arabie Saoudite.";
+
+  const aboutSectionTitle = aboutData?.sectionTitle || 'Notre Histoire';
+  const aboutHeading = aboutData?.heading || "L'Excellence au Service du pèlerin";
+  const aboutDescription = aboutData?.description || "AL-HIDAYA est le fruit d'une passion pour le service sacré. Depuis 2019, nous mettons tout en œuvre pour que chaque pèlerin puisse accomplir ses rites dans la paix et la sérénité.";
+  const aboutFeatures = aboutData?.features || [
+    { _key: 'f1', title: 'Agréments', description: "Reconnus officiellement par l'État du Niger." },
+    { _key: 'f2', title: 'Prestige', description: 'Hôtels à la Mecque et Médine.' },
+  ];
 
   return (
     <>
@@ -92,19 +115,16 @@ function HomePage() {
               className="flex items-center gap-3 mb-6"
             >
               <div className="w-12 h-0.5 bg-brand-gold" />
-              <span className="text-brand-gold font-black uppercase tracking-[0.4em] text-[10px]">Notre Histoire</span>
+              <span className="text-brand-gold font-black uppercase tracking-[0.4em] text-[10px]">{aboutSectionTitle}</span>
             </motion.div>
             <h2 className="text-3xl sm:text-4xl md:text-6xl font-black text-brand-emerald mb-6 md:mb-8 leading-[1.1] tracking-tighter text-center md:text-left">
               L'Excellence <br className="hidden sm:block" /> <span className="text-brand-gold">au Service</span> du pèlerin
             </h2>
             <p className="text-gray-800 text-lg md:text-xl leading-relaxed mb-8 md:mb-10 font-bold text-center md:text-left">
-              AL-HIDAYA est le fruit d'une passion pour le service sacré. Depuis 2019, nous mettons tout en œuvre pour que chaque pèlerin puisse accomplir ses rites dans la paix et la sérénité.
+              {aboutDescription}
             </p>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 md:gap-8 mb-10 md:mb-12">
-              {[
-                { icon: <ShieldCheck size={28} />, title: 'Agréments', desc: "Reconnus officiellement par l'État du Niger." },
-                { icon: <Star size={28} />, title: 'Prestige', desc: 'Hôtels à la Mecque et Médine.' },
-              ].map((item, i) => (
+              {aboutFeatures.map((feat: any, i: number) => ({ icon: i === 0 ? <ShieldCheck size={28} /> : <Star size={28} />, title: feat.title, desc: feat.description })).map((item, i) => (
                 <motion.div
                   key={i}
                   whileHover={{ scale: 1.02 }}
@@ -190,22 +210,22 @@ function HomePage() {
                   <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-brand-gold border border-white/20 grow-0 shrink-0"><Phone size={20} /></div>
                   <div>
                     <p className="text-[10px] uppercase tracking-widest font-bold text-white/50">Réservations</p>
-                    <p className="text-lg font-bold">+227 88 62 73 79</p>
-                    <p className="text-sm font-medium text-white/60 mt-1">Autres : 98 42 41 40 | 96 34 79 76</p>
+                    <p className="text-lg font-bold">{mainPhone}</p>
+                    <p className="text-sm font-medium text-white/60 mt-1">Autres : {otherPhones.join(' | ')}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-6">
                   <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-brand-gold border border-white/20"><Mail size={20} /></div>
                   <div>
                     <p className="text-[10px] uppercase tracking-widest font-bold text-white/50">Email</p>
-                    <p className="text-lg font-bold">contact@alhydayahadj.com</p>
+                    <p className="text-lg font-bold">{email}</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-6">
                   <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center text-brand-gold border border-white/20"><MapPin size={20} /></div>
                   <div>
                     <p className="text-[10px] uppercase tracking-widest font-bold text-white/50">Bureau</p>
-                    <p className="text-lg font-bold">Route Djogol Midi, Niamey</p>
+                    <p className="text-lg font-bold">{address}</p>
                   </div>
                 </div>
               </div>
@@ -220,8 +240,7 @@ function HomePage() {
       <section className="py-8 md:py-10 bg-white text-center">
         <div className="max-w-4xl mx-auto px-6">
           <p className="text-gray-400 text-sm leading-relaxed">
-            AL-HIDAYA est agréée par le Ministère de l'Intérieur, de la Sécurité Publique et de l'Administration Territoriale du Niger. <br />
-            Nous respectons strictement les directives de l'Office du Hadj de l'Arabie Saoudite.
+            {footerText}
           </p>
         </div>
       </section>
@@ -320,25 +339,33 @@ export default function App() {
 
         <motion.div className="fixed top-0 left-0 right-0 h-1 bg-brand-gold origin-left z-[60]" style={{ scaleX }} />
 
-        <Navbar />
-        <WhatsAppButton />
+        {location.pathname === '/admin' ? (
+          <Suspense fallback={<div className="h-screen flex items-center justify-center text-brand-emerald text-xl font-bold">Chargement du studio...</div>}>
+            <Studio />
+          </Suspense>
+        ) : (
+          <>
+            <Navbar />
+            <WhatsAppButton />
 
-        <AnimatePresence mode="wait">
-          <motion.div
-            key={location.pathname}
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            transition={{ duration: 0.35 }}
-          >
-            <Routes location={location}>
-              <Route path="/" element={<HomePage />} />
-              <Route path="/actualites" element={<Blog />} />
-            </Routes>
-          </motion.div>
-        </AnimatePresence>
+            <AnimatePresence mode="wait">
+              <motion.div
+                key={location.pathname}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                exit={{ opacity: 0, y: -20 }}
+                transition={{ duration: 0.35 }}
+              >
+                <Routes location={location}>
+                  <Route path="/" element={<HomePage />} />
+                  <Route path="/actualites" element={<Blog />} />
+                </Routes>
+              </motion.div>
+            </AnimatePresence>
 
-        <Footer />
+            <Footer />
+          </>
+        )}
       </div>
     </MotionConfig>
   );

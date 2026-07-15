@@ -2,6 +2,8 @@ import React, { useRef, useState } from 'react';
 import { motion, AnimatePresence, useMotionValue, useSpring, useTransform } from 'motion/react';
 import { cn } from '../lib/utils';
 import { Check, Star, X, Phone, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useSanity } from '../sanity/useSanity';
+import { getOffers } from '../sanity/queries';
 
 interface Offer {
   title: string;
@@ -138,7 +140,7 @@ export default function OffersSection() {
     });
   };
 
-  const offers2627: Offer[] = [
+  const fallbackOffers: Offer[] = [
     {
       title: "Oumra Août 2026",
       type: "Oumra",
@@ -193,7 +195,20 @@ export default function OffersSection() {
     }
   ];
 
-  const currentOffers = offers2627;
+  const { data: sanityOffers } = useSanity(getOffers, null);
+
+  const currentOffers: Offer[] = sanityOffers
+    ? sanityOffers.map((o: any) => ({
+        title: o.title,
+        type: o.type,
+        price: o.price,
+        badge: o.badge || '',
+        image: o.image || fallbackOffers.find(f => f.title === o.title)?.image || '',
+        isPopular: o.isPopular || false,
+        features: o.features || [],
+        fullDetails: o.fullDetails || '',
+      }))
+    : fallbackOffers;
   const firstHadjIndex = currentOffers.findIndex((offer) => offer.type === 'Hadj');
   const firstOumraIndex = currentOffers.findIndex((offer) => offer.type === 'Oumra');
 
@@ -214,7 +229,7 @@ export default function OffersSection() {
             viewport={{ once: true }}
             className="inline-block px-4 py-1.5 rounded-full bg-brand-emerald text-white text-[10px] font-black uppercase tracking-[0.35em] mb-4 shadow-lg"
           >
-            Nos Programmes 2025 - 2027
+            Nos Programmes 2026 - 2027
           </motion.div>
           <motion.h2 
             initial={{ opacity: 0, y: 30 }}
