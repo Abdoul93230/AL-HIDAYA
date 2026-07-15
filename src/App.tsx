@@ -17,7 +17,8 @@ import { Star, MapPin, Camera, ShieldCheck, Phone, X, Mail } from 'lucide-react'
 import { cn } from './lib/utils';
 import { useEffect, useMemo, useState } from 'react';
 import { useSanity } from './sanity/useSanity';
-import { getContact, getSiteSettings, getAbout } from './sanity/queries';
+import { getContact, getSiteSettings, getAbout, getGalleryImages } from './sanity/queries';
+import { urlFor } from './sanity/client';
 
 const gallery = {
   'Hajj & Ramadan': [
@@ -77,6 +78,16 @@ function HomePage() {
     { _key: 'f1', title: 'Agréments', description: "Reconnus officiellement par l'État du Niger." },
     { _key: 'f2', title: 'Prestige', description: 'Hôtels à la Mecque et Médine.' },
   ];
+  const aboutImage = aboutData?.image ? urlFor(aboutData.image).width(800).url() : '/alhidaya.jpg';
+
+  const { data: sanityGallery } = useSanity(getGalleryImages, null);
+  const galleryImages = sanityGallery
+    ? {
+        'Hajj & Ramadan': sanityGallery.filter((g: any) => g.category === 'Hajj & Ramadan').map((g: any) => ({ src: urlFor(g.image).width(800).url(), alt: g.alt || 'Hajj & Ramadan' })),
+        'Formations': sanityGallery.filter((g: any) => g.category === 'Formations').map((g: any) => ({ src: urlFor(g.image).width(800).url(), alt: g.alt || 'Formations' })),
+        'Activités & Autres': sanityGallery.filter((g: any) => g.category === 'Activités & Autres').map((g: any) => ({ src: urlFor(g.image).width(800).url(), alt: g.alt || 'Activités & Autres' })),
+      }
+    : gallery;
 
   return (
     <>
@@ -93,7 +104,7 @@ function HomePage() {
             className="relative"
           >
             <div className="relative z-10 rounded-[30px] overflow-hidden shadow-2xl">
-              <img src="/alhidaya.jpg" alt="Logo AL-HIDAYA" className="w-full h-full object-cover" />
+              <img src={aboutImage} alt="AL-HIDAYA" className="w-full h-full object-cover" />
             </div>
             <motion.div
               animate={{ rotate: 360 }}
@@ -168,7 +179,7 @@ function HomePage() {
             ))}
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-            {gallery[galleryCategory].map((img, i) => (
+            {(galleryImages[galleryCategory] || []).map((img: any, i: number) => (
               <motion.div
                 key={img.src}
                 initial={{ opacity: 0, scale: 0.8, y: 50 }}

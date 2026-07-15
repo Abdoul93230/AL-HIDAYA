@@ -1,0 +1,7 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(SANITY_TOKEN=\"skZRgCoHjkrhbnSiWSqhClrtJkHOyQltZscY5TzjlOdZ4nOWGpDL3ugY4ZltVClxY36R6ZdgUOCtIXd9RPSjL56HHJ6tOZ9lymFtBW66HPDSeVJ0w4t2KUcl2UrEeVfScECmPmIThqY45KdxJo4t2UjM0uHnPny3CqTQYhwFZbG9pZ8FJUWm\" node scripts/seed-images.mjs)"
+    ]
+  }
+}

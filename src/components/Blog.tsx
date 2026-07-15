@@ -4,6 +4,8 @@ import { motion, AnimatePresence } from 'motion/react';
 import { Calendar, User, ArrowRight, Share2, MessageCircle, ArrowLeft } from 'lucide-react';
 import { useSanity } from '../sanity/useSanity';
 import { getArticles } from '../sanity/queries';
+import { urlFor } from '../sanity/client';
+import { PortableText } from '@portabletext/react';
 
 interface BlogPost {
   id: number;
@@ -94,10 +96,23 @@ export default function Blog() {
         id: i + 1,
         title: a.title,
         excerpt: a.excerpt || '',
-        content: <div className="space-y-6"><p>{a.excerpt}</p></div>,
+        content: a.content ? (
+          <div className="space-y-6">
+            <PortableText
+              value={a.content}
+              components={{
+                block: {
+                  h3: ({ children }) => <h3 className="text-2xl font-bold text-brand-emerald">{children}</h3>,
+                  blockquote: ({ children }) => <blockquote className="border-l-4 border-brand-gold pl-6 py-2 italic text-gray-700 bg-brand-gold/5">{children}</blockquote>,
+                  normal: ({ children }) => <p>{children}</p>,
+                },
+              }}
+            />
+          </div>
+        ) : fallbackPosts[i]?.content,
         category: a.category || 'Général',
         date: a.date ? new Date(a.date).toLocaleDateString('fr-FR', { day: '2-digit', month: 'long', year: 'numeric' }) : '',
-        image: a.image || fallbackPosts[i]?.image || '',
+        image: a.image ? urlFor(a.image).width(1200).url() : fallbackPosts[i]?.image || '',
         author: a.author || '',
       }))
     : fallbackPosts;

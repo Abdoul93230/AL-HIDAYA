@@ -28,7 +28,7 @@ export async function getTestimonials() {
 }
 
 export async function getArticles() {
-  return client.fetch(`*[_type == "article"] | order(date desc)`);
+  return client.fetch(`*[_type == "article"] | order(date desc) { ..., content[] }`);
 }
 
 export async function getArticleBySlug(slug: string) {

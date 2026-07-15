@@ -3,6 +3,7 @@ import { motion, useMotionValue, useSpring, useTransform, useReducedMotion } fro
 import { ChevronDown, ArrowRight, ShieldCheck } from 'lucide-react';
 import { useSanity } from '../sanity/useSanity';
 import { getHero } from '../sanity/queries';
+import { urlFor } from '../sanity/client';
 
 export default function Hero() {
   const [isCoarsePointer, setIsCoarsePointer] = useState(false);
@@ -13,6 +14,7 @@ export default function Hero() {
   const subtitle = heroData?.subtitle || 'Le meilleur choix pour un meilleur encadrement';
   const ctaText = heroData?.ctaText || 'Découvrir 2026';
   const ctaLink = heroData?.ctaLink || '#offres';
+  const bgImage = heroData?.backgroundImage ? urlFor(heroData.backgroundImage).width(1400).quality(70).url() : 'https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&q=70&w=1400';
 
   useEffect(() => {
     const mediaQuery = window.matchMedia('(pointer: coarse), (max-width: 900px)');
@@ -71,8 +73,8 @@ export default function Hero() {
       >
         {/* High-quality Background Image for All Screens */}
         <div className="w-full h-full">
-          <img 
-            src="https://images.unsplash.com/photo-1591604129939-f1efa4d9f7fa?auto=format&fit=crop&q=70&w=1400" 
+          <img
+            src={bgImage}
             className="w-full h-full object-cover"
             alt="Mecca background"
             decoding="async"

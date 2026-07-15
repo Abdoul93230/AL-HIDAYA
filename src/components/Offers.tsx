@@ -4,6 +4,7 @@ import { cn } from '../lib/utils';
 import { Check, Star, X, Phone, ChevronLeft, ChevronRight } from 'lucide-react';
 import { useSanity } from '../sanity/useSanity';
 import { getOffers } from '../sanity/queries';
+import { urlFor } from '../sanity/client';
 
 interface Offer {
   title: string;
@@ -203,7 +204,7 @@ export default function OffersSection() {
         type: o.type,
         price: o.price,
         badge: o.badge || '',
-        image: o.image || fallbackOffers.find(f => f.title === o.title)?.image || '',
+        image: o.image ? urlFor(o.image).width(1200).url() : fallbackOffers.find(f => f.title === o.title)?.image || '',
         isPopular: o.isPopular || false,
         features: o.features || [],
         fullDetails: o.fullDetails || '',
